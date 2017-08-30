@@ -1,0 +1,27 @@
+{
+  "name": "sedra.js",
+  "version": "1.0.0",
+  "description": "JavaScript SEDRA 3 database",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peshitta/sedrajs.git"
+  },
+  "keywords": [
+    "Peshitta",
+    "Peshitto",
+    "Aramaic",
+    "Syriac",
+    "Sedra.js",
+    "Sedrajs",
+    "Sedra"
+  ],
+  "author": "Greg Borota",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peshitta/sedrajs/issues"
+  },
+  "homepage": "https://github.com/peshitta/sedrajs#readme"
+}
