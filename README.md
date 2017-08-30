@@ -1,4 +1,4 @@
-# Sedra.js - A JavaScript representation of SEDRA 3 text file database
+# Sedra.js - A JavaScript representation of SEDRA 3 database
 
 Sedra.js project uses [Node.js](https://nodejs.org/) scripts to convert
 [Sedra 3](https://sedra.bethmardutho.org/about/resources) text file database
