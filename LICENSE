@@ -1,6 +1,13 @@
 MIT License
 
-Copyright (c) 2017 peshitta
+Copyright (c) 2017 Greg Borota
+
+Based on SEDRA 3, copyright (c) 1996 GEORGE A. KIRAZ
+
+The following license applies to all parts of this software except as
+documented below:
+
+===
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +26,33 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+===
+
+Files located in the node_modules and vendor directories are externally
+maintained libraries used by this software, which have their own licenses;
+their terms may differ from the terms above.
+
+Sedrajs contains a JavaScript representation of SEDRA 3 text database, with
+additional supporting JS data structures and utilities. SEDRA database portion
+is subject to the restrictions imposed by the authors of SEDRA 3 text database.
+The database was originally downloaded from <http://www.bethmardutho.org/>.
+
+      For additional information on the structure of the Database, see
+         G. Kiraz, `Automatic Concordance Generation of Syriac Texts',
+         in VI Symposium Syriacum 1992, ed. R. Lavenant, Orientalia
+         Christiana Analecta 247, Rome, 1994.
+
+      You are allowed to use SEDRA III for personal and academic
+      purposes provided that:
+      1. You do NOT redistribute any altered versions of the files.
+      2. You do NOT redistribute any files for any kind of profit.
+      3. You acknowledge in any publication whose results make use of
+         SEDRA III, by any means, using a formula similar to the
+         following:
+      "This work makes use of the Syriac Electronic Data
+       Retrieval Archive (SEDRA) by George A. Kiraz, distributed
+       by the Syriac Computing Institute."
+      You should also cite the paper mentioned above.
+
+See sedra/SEDRA3.DOC for additional details.
