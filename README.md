@@ -9,9 +9,9 @@ transliteration is used for Aramaic words and roots. The result is stored in
 `build` folder as:
 * `sedra.esm.js` - An ES6 module bundle, suitable for use in other people's
 libraries and applications.
-* `sedra.umd.js` - A general UMD build, suitable for use in any environment
+* `sedra.js` - A general UMD build, suitable for use in any environment
 (Web browser, Node.js, etc.)
-* `sedra.min.js` - A minified version of `sedra.umd.js` build.
+* `sedra.min.js` - A minified version of `sedra.js` build.
 
 ```
         For additional information on the structure of the Database, see
