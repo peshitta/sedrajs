@@ -31,3 +31,7 @@ libraries and applications.
            by the Syriac Computing Institute."
            You should also cite the paper mentioned above.
 ```
+
+## License
+
+[MIT with restrictions for SEDRA 3 dependency](https://github.com/peshitta/sedrajs/blob/master/LICENSE)
