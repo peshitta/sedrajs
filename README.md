@@ -10,8 +10,7 @@
 
 Sedrajs project uses [Node.js](https://nodejs.org/) scripts to convert
 [Sedra 3](https://sedra.bethmardutho.org/about/resources) text file database
-to a JavaScript representation. Sedra JS conversion is stored in a single
-file bundle, ready to be used in other JavaScript applications or libraries.
+to a JavaScript representation.
 [CAL ASCII](http://cal1.cn.huc.edu/searching/fullbrowser.html) transliteration
 is used for Aramaic words and roots.
 
