@@ -1,27 +1,80 @@
 {
-  "name": "sedra.js",
+  "name": "sedrajs",
   "version": "1.0.0",
-  "description": "JavaScript SEDRA 3 database",
-  "main": "index.js",
+  "description": "A JavaScript representation of SEDRA 3 databas",
+  "main": "build/sedrajs.js",
+  "main݂Min": "build/sedrajs.min.js",
+  "module": "build/sedrajs.esm.js",
   "scripts": {
+    "pretest": "rollup -c",
+    "test": "mocha --reporter test/istanbul.reporter.js --recursive",
+    "prebuild": "npm run doc && npm test && npm run lint",
+    "build": "npm run bundle",
+    "bundle": "rollup -c --environment BUILD:production",
+    "build:dev": "rollup -c --environment BUILD:dev",
+    "lint": "eslint src test",
+    "doc": "jsdoc2md -t doc/readme.hbs src/*.js > README.md",
+    "coverage": "cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "prepublish": "npm run build"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "rules": {
+      "no-plusplus": 0,
+      "comma-dangle": 0,
+      "no-nested-ternary": 0,
+      "function-paren-newline": 0,
+      "import/extensions": 0,
+      "arrow-parens": 0
+    }
+  },
+  "files": [
+    "sedra/*.*",
+    "src/*.js"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peshitta/sedrajs.git"
   },
   "keywords": [
+    "Sedrajs",
+    "Sedra.js",
     "Peshitta",
     "Peshitto",
+    "Pshitta",
+    "Pshitto",
+    "Sedra",
     "Aramaic",
     "Syriac",
-    "Sedra.js",
-    "Sedrajs",
-    "Sedra"
+    "CAL",
+    "Estrangela",
+    "Estrangelo"
   ],
   "author": "Greg Borota",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/peshitta/sedrajs/issues"
   },
-  "homepage": "https://github.com/peshitta/sedrajs#readme"
+  "homepage": "https://github.com/peshitta/sedrajs#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^7.0.0-beta.1",
+    "babel-plugin-external-helpers": "^7.0.0-beta.1",
+    "babel-preset-env": "^2.0.0-beta.1",
+    "babelrc-rollup": "^3.0.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "istanbul": "^0.4.5",
+    "jsdoc-to-markdown": "^3.0.0",
+    "mocha": "^3.5.3",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-istanbul": "^1.1.0",
+    "rollup-plugin-uglify": "^2.0.1"
+  }
 }
