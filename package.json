@@ -59,7 +59,10 @@
     "url": "https://github.com/peshitta/sedrajs/issues"
   },
   "homepage": "https://github.com/peshitta/sedrajs#readme",
-  "dependencies": {},
+  "dependencies": {
+    "sedra-cal": "^1.0.8",
+    "sedra-model": "^1.0.0"
+  },
   "devDependencies": {
     "babel-core": "^7.0.0-beta.1",
     "babel-plugin-external-helpers": "^7.0.0-beta.1",
