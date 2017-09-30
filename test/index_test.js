@@ -2,8 +2,8 @@ const test = require('assert');
 const sut = require('../build/sedrajs');
 
 describe('Root', () => {
-  it('Parse Root File', () => {
-    const file = sut.parseRoot(
+  it('Build Root Javascript', () => {
+    const js = sut.buildRoots(
       '0:40,"AONGL;ON","afncljfn     |0",0\r\n' +
         '0:41,"AON;XA","afnjsa       |0",0\r\n' +
         '0:42,"AO/RA","art          |0",2\r\n' +
@@ -12,21 +12,22 @@ describe('Root', () => {
         '0:45,"AORDEA","atdp         |0",2\r\n' +
         '0:46,"AOROS","ato          |0",4\r\n'
     );
-    const parsedfile =
-      '40,"AONGL;ON","afncljfn     |0",0\r\n' +
-      '41,"AON;XA","afnjsa       |0",0\r\n' +
-      '42,"AO/RA","art          |0",2\r\n' +
-      '43,"AOX;NA","asn          |0",4\r\n' +
-      '44,"AORBNOS","aftbnfo      |0",0\r\n' +
-      '45,"AORDEA","atdp         |0",2\r\n' +
-      '46,"AOROS","ato          |0",4\r\n';
-    test.strictEqual(file, parsedfile, 'parsed file');
+    const expected =
+      "import{getRoot as r}from 'sedra-model';export default Object.freeze([" +
+      'r(")wnglywn","afncljfn     |0",0),' +
+      'r(")wnyq)","afnjsa       |0",0),' +
+      'r(")wcr)","art          |0",2),' +
+      'r(")wqyn)","asn          |0",4),' +
+      'r(")wrbnws","aftbnfo      |0",0),' +
+      'r(")wrd()","atdp         |0",2),' +
+      'r(")wrws","ato          |0",4)]);';
+    test.strictEqual(js, expected, 'parsed file');
   });
 });
 
 describe('Lexeme', () => {
-  it('Parse Lexeme File', () => {
-    const file = sut.parseLexeme(
+  it('Build Lexeme Javascript', () => {
+    const file = sut.buildLexemes(
       '1:124,0:93,"ACI",0,0\r\n' +
         '1:125,0:94,"ACRA",0,16\r\n' +
         '1:126,0:95,"ACTA",0,16\r\n' +
@@ -38,21 +39,24 @@ describe('Lexeme', () => {
         '1:132,0:98,"ALH;A",75514882,32\r\n' +
         '1:133,0:98,"ALHTA",75514882,16\r\n' +
         '1:134,0:99,"ALO",0,36\r\n' +
+        '1:849,NULL,"ZDXA",339740672,32\r\n' +
         '1:135,0:100,"ALOMOS",0,24\r\n'
     );
     const parsedfile =
-      '124,93,"ACI",0,0\r\n' +
-      '125,94,"ACRA",0,16\r\n' +
-      '126,95,"ACTA",0,16\r\n' +
-      '127,96,"ALA",0,100\r\n' +
-      '128,97,"ALA",0,0\r\n' +
-      '129,97,"AL;A",339741696,16\r\n' +
-      '130,98,"ALHA",75514880,16\r\n' +
-      '131,98,"ALHOTA",75514944,16\r\n' +
-      '132,98,"ALH;A",75514882,32\r\n' +
-      '133,98,"ALHTA",75514882,16\r\n' +
-      '134,99,"ALO",0,36\r\n' +
-      '135,100,"ALOMOS",0,24\r\n';
+      "import{getLexeme as l}from 'sedra-model';export default Object.freeze([" +
+      'l(93,")kp",0,0),' +
+      'l(94,")kr)",0,16),' +
+      'l(95,")kt)",0,16),' +
+      'l(96,")l)",0,100),' +
+      'l(97,")l)",0,0),' +
+      'l(97,")ly)",339741696,16),' +
+      'l(98,")lh)",75514880,16),' +
+      'l(98,")lhwt)",75514944,16),' +
+      'l(98,")lhy)",75514882,32),' +
+      'l(98,")lht)",75514882,16),' +
+      'l(99,")lw",0,36),' +
+      'l(null,"zdq)",339740672,32),' +
+      'l(100,")lwmws",0,24)]);';
     test.strictEqual(file, parsedfile, 'parsed file');
   });
 });
@@ -92,7 +96,7 @@ describe('Word', () => {
 
 describe('English', () => {
   it('Parse English File', () => {
-    const file = sut.parseEnglish(
+    const file = sut.buildEnglish(
       '3:15,NULL,"perishing","","","",0,0\r\n' +
         '3:16,1:8,"pipe","","","",0,0\r\n' +
         '3:17,1:8,"flute","","","",0,0\r\n' +
@@ -112,23 +116,24 @@ describe('English', () => {
         '3:31,NULL,"Abram","","","",0,0\r\n'
     );
     const parsedfile =
-      '15,null,"perishing","","","",0,0\r\n' +
-      '16,8,"pipe","","","",0,0\r\n' +
-      '17,8,"flute","","","",0,0\r\n' +
-      '18,9,"Abijah","","","(son of Rehoboam)",2,0\r\n' +
-      '19,10,"Abijah","","","(founder of a course of priests)",2,0\r\n' +
-      '20,11,"Abiud","","","",0,0\r\n' +
-      '21,12,"Abilene","","","",0,0\r\n' +
-      '22,13,"Abiathar","","","",0,0\r\n' +
-      '23,14,"mourner","","","",0,0\r\n' +
-      '24,15,"grieve","","","",4096,0\r\n' +
-      '25,15,"mourn","","","",4096,0\r\n' +
-      '26,16,"mourning","","","",0,0\r\n' +
-      '27,16,"grief","","","",0,0\r\n' +
-      '28,16,"sadness","","","",0,0\r\n' +
-      '29,17,"stone","","","",0,0\r\n' +
-      '30,18,"Abraham","","","",0,0\r\n' +
-      '31,null,"Abram","","","",0,0\r\n';
+      "import{getEnglish as e}from 'sedra-model';export default Object.freeze([" +
+      'e(null,"perishing","","","",0,0),' +
+      'e(8,"pipe","","","",0,0),' +
+      'e(8,"flute","","","",0,0),' +
+      'e(9,"Abijah","","","(son of Rehoboam)",2,0),' +
+      'e(10,"Abijah","","","(founder of a course of priests)",2,0),' +
+      'e(11,"Abiud","","","",0,0),' +
+      'e(12,"Abilene","","","",0,0),' +
+      'e(13,"Abiathar","","","",0,0),' +
+      'e(14,"mourner","","","",0,0),' +
+      'e(15,"grieve","","","",4096,0),' +
+      'e(15,"mourn","","","",4096,0),' +
+      'e(16,"mourning","","","",0,0),' +
+      'e(16,"grief","","","",0,0),' +
+      'e(16,"sadness","","","",0,0),' +
+      'e(17,"stone","","","",0,0),' +
+      'e(18,"Abraham","","","",0,0),' +
+      'e(null,"Abram","","","",0,0)]);';
     test.strictEqual(file, parsedfile, 'parsed file');
   });
 });
@@ -191,40 +196,23 @@ describe('BFBS/UBS', () => {
         '0:-32617,541601519,33555871,-32752\r\n'
     );
     const parsedfile =
-      '-32628,541601508,33567919,0\r\n' +
-      '-32627,541601509,33572533,0\r\n' +
-      '-32626,541601510,33557662,-28672\r\n' +
-      '-32625,541601511,33555860,4100\r\n' +
-      '-32624,541601512,33555337,0\r\n' +
-      '-32623,541601513,33558837,0\r\n' +
-      '-32622,541601514,33563118,0\r\n' +
-      '-32621,541601515,33565392,-32764\r\n' +
-      '-32620,541601516,33565838,0\r\n' +
-      '-32619,541601517,33574171,0\r\n' +
-      '-32618,541601518,33557095,0\r\n' +
-      '-32617,541601519,33555871,-32752\r\n';
+      '541601508,33567919,0\r\n' +
+      '541601509,33572533,0\r\n' +
+      '541601510,33557662,-28672\r\n' +
+      '541601511,33555860,4100\r\n' +
+      '541601512,33555337,0\r\n' +
+      '541601513,33558837,0\r\n' +
+      '541601514,33563118,0\r\n' +
+      '541601515,33565392,-32764\r\n' +
+      '541601516,33565838,0\r\n' +
+      '541601517,33574171,0\r\n' +
+      '541601518,33557095,0\r\n' +
+      '541601519,33555871,-32752';
     test.strictEqual(file, parsedfile, 'parsed file');
   });
 });
 
 describe('Sedra model', () => {
-  it('Make Root', () => {
-    const m = sut.makeRoot(1, 'ABOBA', 'abb          |0', 2);
-    test.strictEqual(m.root, 'ABOBA', 'root matching');
-    test.strictEqual(m.sort, 'abb          |0', 'sort matching');
-    test.strictEqual(m.attributes, 2, 'attributes matching');
-  });
-  it('Make Lexeme', () => {
-    const m = sut.makeLexeme(2, 55, 'AKOTA', 37749824, 16);
-    test.strictEqual(m.rootId, 55, 'rootId matching');
-    test.strictEqual(m.lexeme, 'AKOTA', 'lexeme matching');
-    test.strictEqual(
-      m.morphologicalType,
-      37749824,
-      'morphologicalType matching'
-    );
-    test.strictEqual(m.attributes, 16, 'attributes matching');
-  });
   it('Make Word', () => {
     const m = sut.makeWord(3, 55, 'MOBDO', "MaOB'oD,uO", 369098752, 128);
     test.strictEqual(m.lexemeId, 55, 'lexemeId matching');
@@ -236,25 +224,6 @@ describe('Sedra model', () => {
       'morphologicalType matching'
     );
     test.strictEqual(m.attributes, 128, 'attributes matching');
-  });
-  it('Make English', () => {
-    const m = sut.makeEnglish(
-      3,
-      71,
-      'kindle',
-      'make',
-      '(in Egypt)',
-      'w/ &NuORoA& ',
-      10240,
-      1
-    );
-    test.strictEqual(m.lexemeId, 71, 'lexemeId matching');
-    test.strictEqual(m.word, 'kindle', 'word matching');
-    test.strictEqual(m.before, 'make', 'before matching');
-    test.strictEqual(m.after, '(in Egypt)', 'after matching');
-    test.strictEqual(m.comment, 'w/ &NuORoA& ', 'comment matching');
-    test.strictEqual(m.attributes, 10240, 'attributes matching');
-    test.strictEqual(m.flag, 1, 'flag matching');
   });
   it('Make Etymology', () => {
     const m = sut.makeEtymology(4, 46, 'eu\\255jaristi\\256a', 5);

@@ -48,7 +48,7 @@ const banner = isProduction
     '* The database was originally downloaded from <http://www.bethmardutho.org/>.\n' +
     '*\n' +
     '*       For additional information on the structure of the Database, see\n' +
-    '*          G. Kiraz, `Automatic Concordance Generation of Syriac Texts\',\n' +
+    "*          G. Kiraz, `Automatic Concordance Generation of Syriac Texts',\n" +
     '*          in VI Symposium Syriacum 1992, ed. R. Lavenant, Orientalia\n' +
     '*          Christiana Analecta 247, Rome, 1994.\n' +
     '*\n' +
@@ -75,7 +75,9 @@ const external = Object.keys(pkg.dependencies);
 const input = 'src/main.js';
 const name = 'sedrajs';
 const format = 'umd';
-const globals = {};
+const globals = {
+  'sedra-cal': 'sedraCal'
+};
 const sourcemap = !isProduction;
 const plugins = [babel(babelrc({ path: 'babelrc.json' }))];
 

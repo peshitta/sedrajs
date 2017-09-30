@@ -2,60 +2,6 @@
 
 /**
  * Remove file id prefix from ids
- * @param { string } content Root file content
- */
-export const parseRoot = content => content.replace(/^0:/gm, '');
-
-/**
- * Root records, e.g. 0:2,"AB","ab           |A",0
- *
- * @param { number } id e.g. 2
- * @param { string } root e.g. "AB"
- * @param { string } sort e.g. "ab          |A"
- * @param { number } attributes 16-bit map
- */
-export const makeRoot = (id, root, sort, attributes) =>
-  Object.freeze(
-    Object.create(null, {
-      id: { value: id, enumerable: true },
-      root: { value: root, enumerable: true },
-      sort: { value: sort, enumerable: true },
-      attributes: { value: attributes, enumerable: true }
-    })
-  );
-
-/**
- * Remove file id prefix from ids
- * @param { string } content Lexeme file content
- */
-export const parseLexeme = content =>
-  content
-    .replace(/^1:/gm, '')
-    .replace(/,0:/gm, ',')
-    .replace(/,NULL,/gm, ',null,');
-
-/**
- * Lexeme records, e.g. 1:2,0:2,"ABA",41960448,16
- *
- * @param { number } id e.g. 2
- * @param { number } rootId Root Address, e.g. 2
- * @param { string } lexeme e.g. "ABA"
- * @param { number } morphologicalType 32-bit map
- * @param { number } attributes 16-bit map
- */
-export const makeLexeme = (id, rootId, lexeme, morphologicalType, attributes) =>
-  Object.freeze(
-    Object.create(null, {
-      id: { value: id, enumerable: true },
-      rootId: { value: rootId, enumerable: true },
-      lexeme: { value: lexeme, enumerable: true },
-      morphologicalType: { value: morphologicalType, enumerable: true },
-      attributes: { value: attributes, enumerable: true }
-    })
-  );
-
-/**
- * Remove file id prefix from ids
  * @param { string } content Word file content
  */
 export const parseWord = content =>
@@ -96,51 +42,6 @@ export const makeWord = (
 
 /**
  * Remove file id prefix from ids
- * @param { string } content English file content
- */
-export const parseEnglish = content =>
-  content
-    .replace(/^3:/gm, '')
-    .replace(/,1:/gm, ',')
-    .replace(/,NULL,/gm, ',null,');
-
-/**
- * English meaning, e.g. 3:165,1:97,"cause","without","","",0,0
- *
- * @param { number } id e.g. 165
- * @param { number } lexemeId Lexeme address, e.g. 97
- * @param { string } word Meaning, e.g. "cause"
- * @param { string } before String before meaning, e.g. "without" (i.e. without cause)
- * @param { number } after String after meaning, e.g. ""
- * @param { number } comment Comment, e.g. ""
- * @param { number } attributes 16-bit map
- * @param { number } flag 1 bit flag
- */
-export const makeEnglish = (
-  id,
-  lexemeId,
-  word,
-  before,
-  after,
-  comment,
-  attributes,
-  flag
-) =>
-  Object.freeze(
-    Object.create(null, {
-      id: { value: id, enumerable: true },
-      lexemeId: { value: lexemeId, enumerable: true },
-      word: { value: word, enumerable: true },
-      before: { value: before, enumerable: true },
-      after: { value: after, enumerable: true },
-      comment: { value: comment, enumerable: true },
-      attributes: { value: attributes, enumerable: true },
-      flag: { value: flag, enumerable: true }
-    })
-  );
-
-/**
- * Remove file id prefix from ids
  * @param { string } content Etymology file content
  */
 export const parseEtymology = content =>
@@ -167,11 +68,13 @@ export const makeEtymology = (id, lexemeId, word, attributes) =>
     })
   );
 
+const idRegex = /^0:-?\d+,/gm;
+
 /**
  * Remove file id prefix from ids
  * @param { string } content BFBS/UBS file content
  */
-export const parseUbs = parseRoot;
+export const parseUbs = content => content.trim().replace(idRegex, '');
 
 /**
  * UBS records, e.g. 0:381,520200807,33570564,24
