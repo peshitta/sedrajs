@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import babelrc from 'babelrc-rollup';
 import istanbul from 'rollup-plugin-istanbul';
 import uglify from 'rollup-plugin-uglify';
+import resolve from 'rollup-plugin-node-resolve';
 import pkg from './package.json';
 
 const isProduction = process.env.BUILD === 'production';
@@ -71,15 +72,15 @@ const banner = isProduction
     '// http://cal1.cn.huc.edu/searching/fullbrowser.html\n'
   : '';
 
-const external = Object.keys(pkg.dependencies);
+const external = Object.keys(pkg.dependencies).concat(['path', 'fs']);
 const input = 'src/main.js';
 const name = 'sedrajs';
-const format = 'umd';
+const format = 'cjs';
 const globals = {
   'sedra-cal': 'sedraCal'
 };
 const sourcemap = !isProduction;
-const plugins = [babel(babelrc({ path: 'babelrc.json' }))];
+const plugins = [resolve(), babel(babelrc({ path: 'babelrc.json' }))];
 
 // browser-friendly UMD build
 const targets = [

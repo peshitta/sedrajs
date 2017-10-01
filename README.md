@@ -89,6 +89,20 @@ npm run build
 * [sedra](#module_sedra)
     * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
     * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
+    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
+
+<a name="exp_module_sedra--module.exports"></a>
+
+### module.exports(content) ⇒ <code>string</code> ⏏
+Build english javascript from english records,
+e.g. 3:165,1:97,"cause","without","","",0,0
+
+**Kind**: Exported function  
+**Returns**: <code>string</code> - English javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | English file content |
 
 <a name="exp_module_sedra--module.exports"></a>
 

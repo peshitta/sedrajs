@@ -6,7 +6,7 @@
  * @const
  * @type { RegExp }
  */
-const idRegex = /^3:\d+,(?:1:(\d+)|(NULL))/gm;
+const idRegex = /3:\d+,(?:1:(\d+)|(NULL))(,.+)\r\n/gm;
 
 /**
  * Remove id from english file as id will be given by the position in the array.
@@ -16,7 +16,11 @@ const idRegex = /^3:\d+,(?:1:(\d+)|(NULL))/gm;
  * @returns { string } Parsed english content
  */
 const parseEnglish = content =>
-  content.trim().replace(idRegex, (match, id, noId) => (noId ? 'null' : id));
+  content
+    .replace(
+      idRegex,
+      (match, id, noId, line) => `,e(${noId ? 'null' : id}${line})`
+    );
 
 /**
  * Build english javascript from english records,
@@ -25,12 +29,6 @@ const parseEnglish = content =>
  * @returns { string } English javascript
  */
 export default content => {
-  let sb =
-    "import{getEnglish as e}from 'sedra-model';export default Object.freeze([";
-  const lines = parseEnglish(content).split('\r\n');
-  for (let i = 0, len = lines.length; i < len; i++) {
-    sb += `${i ? ',' : ''}e(${lines[i]})`;
-  }
-  sb += ']);';
-  return sb;
+  const lines = parseEnglish(content);
+  return `import{getEnglish as e}from 'sedra-model';export default Object.freeze([${lines}]);`;
 };

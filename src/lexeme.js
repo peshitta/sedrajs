@@ -7,7 +7,7 @@ import { toCal } from 'sedra-cal';
  * @const
  * @type { RegExp }
  */
-const idRegex = /^1:\d+,(?:0:(\d+)|(NULL))(,"[A-Z;/]+")/gm;
+const idRegex = /1:\d+,(?:0:(\d+,)|(NULL,))("[A-Z;/]+")(,.+)\r\n/gm;
 
 /**
  * Remove id from lexeme as id will be given by the position in the JS array.
@@ -18,12 +18,11 @@ const idRegex = /^1:\d+,(?:0:(\d+)|(NULL))(,"[A-Z;/]+")/gm;
  * @returns { string } Parsed Lexeme content
  */
 const parseLexemes = content =>
-  content
-    .trim()
-    .replace(
-      idRegex,
-      (match, id, noId, word) => (noId ? 'null' : id) + toCal(word)
-    );
+  content.replace(
+    idRegex,
+    (match, id, noId, lexeme, line) =>
+      `,l(${noId ? 'null,' : id}${toCal(lexeme)}${line})`
+  );
 
 /**
  * Build lexemes javascript from lexeme records,
@@ -32,12 +31,6 @@ const parseLexemes = content =>
  * @returns { string } Lexemes javascript
  */
 export default content => {
-  let sb =
-    "import{getLexeme as l}from 'sedra-model';export default Object.freeze([";
-  const lines = parseLexemes(content).split('\r\n');
-  for (let i = 0, len = lines.length; i < len; i++) {
-    sb += `${i ? ',' : ''}l(${lines[i]})`;
-  }
-  sb += ']);';
-  return sb;
+  const lines = parseLexemes(content);
+  return `import{getLexeme as l}from 'sedra-model';export default Object.freeze([${lines}]);`;
 };

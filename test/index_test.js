@@ -2,6 +2,19 @@ const test = require('assert');
 const sut = require('../build/sedrajs');
 
 describe('Root', () => {
+  it('Db has no id holes', done => {
+    const idRegex = /^0:(\d+),.+$/gm;
+    sut.readSedra('ROOTS.TXT', content => {
+      const ids = content
+        .trim()
+        .replace(idRegex, (match, id) => id)
+        .split('\r\n');
+      for (let i = 0, len = ids.length; i < len; i++) {
+        test.strictEqual(ids[i], (i + 1).toString(), 'id mismatch');
+      }
+      done();
+    });
+  });
   it('Build Root Javascript', () => {
     const js = sut.buildRoots(
       '0:40,"AONGL;ON","afncljfn     |0",0\r\n' +
@@ -13,7 +26,7 @@ describe('Root', () => {
         '0:46,"AOROS","ato          |0",4\r\n'
     );
     const expected =
-      "import{getRoot as r}from 'sedra-model';export default Object.freeze([" +
+      "import{getRoot as r}from 'sedra-model';export default Object.freeze([," +
       'r(")wnglywn","afncljfn     |0",0),' +
       'r(")wnyq)","afnjsa       |0",0),' +
       'r(")wcr)","art          |0",2),' +
@@ -26,6 +39,19 @@ describe('Root', () => {
 });
 
 describe('Lexeme', () => {
+  it('Db has no id holes', done => {
+    const idRegex = /^1:(\d+),.+$/gm;
+    sut.readSedra('LEXEMES.TXT', content => {
+      const ids = content
+        .trim()
+        .replace(idRegex, (match, id) => id)
+        .split('\r\n');
+      for (let i = 0, len = ids.length; i < len; i++) {
+        test.strictEqual(ids[i], (i + 1).toString(), 'id mismatch');
+      }
+      done();
+    });
+  });
   it('Build Lexeme Javascript', () => {
     const file = sut.buildLexemes(
       '1:124,0:93,"ACI",0,0\r\n' +
@@ -43,7 +69,7 @@ describe('Lexeme', () => {
         '1:135,0:100,"ALOMOS",0,24\r\n'
     );
     const parsedfile =
-      "import{getLexeme as l}from 'sedra-model';export default Object.freeze([" +
+      "import{getLexeme as l}from 'sedra-model';export default Object.freeze([," +
       'l(93,")kp",0,0),' +
       'l(94,")kr)",0,16),' +
       'l(95,")kt)",0,16),' +
@@ -62,6 +88,41 @@ describe('Lexeme', () => {
 });
 
 describe('Word', () => {
+  it('Db HAS id holes', done => {
+    const idRegex = /^2:(\d+),.+$/gm;
+    sut.readSedra('WORDS.TXT', content => {
+      const ids = content
+        .trim()
+        .replace(idRegex, (match, id) => id)
+        .split('\r\n')
+        .map(id => parseInt(id, 10))
+        .sort((a, b) => a - b);
+      let holeCount = 0;
+      let holeSize = 0;
+      let maxHole = 0;
+      const len = ids.length;
+      for (let i = 0, j = 0; i < len; i++) {
+        const id = ids[i];
+        if (id !== j + 1) {
+          ++holeCount;
+          const hole = id - j - 1;
+          holeSize += hole;
+          j = id;
+          if (hole > maxHole) {
+            maxHole = hole;
+          }
+        } else {
+          ++j;
+        }
+      }
+      const discrepancy = ids[len - 1] - len;
+      test.strictEqual(holeCount, 432, 'number of holes');
+      test.strictEqual(maxHole, 45, 'max id hole');
+      test.strictEqual(discrepancy, 1380, 'id discrepancy size');
+      test.strictEqual(holeSize, discrepancy, 'holes cumulative size');
+      done();
+    });
+  });
   it('Parse Word File', () => {
     const file = sut.parseWord(
       '2:59,1:2,"LABOH","LaAB,uOH",6883480,128\r\n' +
@@ -95,6 +156,19 @@ describe('Word', () => {
 });
 
 describe('English', () => {
+  it('Db has no id holes', done => {
+    const idRegex = /^3:(\d+),.+$/gm;
+    sut.readSedra('ENGLISH.TXT', content => {
+      const ids = content
+        .trim()
+        .replace(idRegex, (match, id) => id)
+        .split('\r\n');
+      for (let i = 0, len = ids.length; i < len; i++) {
+        test.strictEqual(ids[i], (i + 1).toString(), 'id mismatch');
+      }
+      done();
+    });
+  });
   it('Parse English File', () => {
     const file = sut.buildEnglish(
       '3:15,NULL,"perishing","","","",0,0\r\n' +
@@ -116,7 +190,7 @@ describe('English', () => {
         '3:31,NULL,"Abram","","","",0,0\r\n'
     );
     const parsedfile =
-      "import{getEnglish as e}from 'sedra-model';export default Object.freeze([" +
+      "import{getEnglish as e}from 'sedra-model';export default Object.freeze([," +
       'e(null,"perishing","","","",0,0),' +
       'e(8,"pipe","","","",0,0),' +
       'e(8,"flute","","","",0,0),' +
@@ -139,6 +213,41 @@ describe('English', () => {
 });
 
 describe('Etymology', () => {
+  it('Db HAS id holes', done => {
+    const idRegex = /^4:(\d+),.+$/gm;
+    sut.readSedra('ETIMOLGY.TXT', content => {
+      const ids = content
+        .trim()
+        .replace(idRegex, (match, id) => id)
+        .split('\r\n')
+        .map(id => parseInt(id, 10))
+        .sort((a, b) => a - b);
+      let holeCount = 0;
+      let holeSize = 0;
+      let maxHole = 0;
+      const len = ids.length;
+      for (let i = 0, j = 0; i < len; i++) {
+        const id = ids[i];
+        if (id !== j + 1) {
+          ++holeCount;
+          const hole = id - j - 1;
+          holeSize += hole;
+          j = id;
+          if (hole > maxHole) {
+            maxHole = hole;
+          }
+        } else {
+          ++j;
+        }
+      }
+      const discrepancy = ids[len - 1] - len;
+      test.strictEqual(holeCount, 3, 'number of holes');
+      test.strictEqual(maxHole, 1, 'max id hole');
+      test.strictEqual(discrepancy, 3, 'id discrepancy size');
+      test.strictEqual(holeSize, discrepancy, 'holes cumulative size');
+      done();
+    });
+  });
   it('Parse Etymology File', () => {
     const file = sut.parseEtymology(
       '4:56,NULL,"409.000000",8\r\n' +
