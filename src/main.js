@@ -1,6 +1,6 @@
 /** @module sedra */
-import * as path from 'path';
-import * as fs from 'fs';
+import { join } from 'path';
+import { readFile, realpathSync, writeFile } from 'fs';
 import buildRoots from './root';
 import buildLexemes from './lexeme';
 import buildEnglish from './english';
@@ -19,8 +19,8 @@ import * as model from './model';
  * @param { contentHandler } contentHandler callback to process file content
  */
 const readSedra = (dbName, contentHandler) => {
-  const file = fs.realpathSync(path.join(__dirname, '../sedra', dbName));
-  fs.readFile(file, 'utf8', (error, content) => {
+  const file = realpathSync(join(__dirname, '../sedra', dbName));
+  readFile(file, 'utf8', (error, content) => {
     if (error) throw error;
     contentHandler(content);
   });
@@ -31,17 +31,17 @@ const readSedra = (dbName, contentHandler) => {
  * @param { string } filePath file to write content to
  * @param { string } content file content to write
  */
-const writeFile = (filePath, content) => {
-  fs.writeFile(filePath, content, error => {
+const writeContent = (filePath, content) => {
+  writeFile(filePath, content, error => {
     if (error) throw error;
-    global.console.log(`\nSaved '${fs.realpathSync(filePath)}'`);
+    global.console.log(`\nSaved '${realpathSync(filePath)}'`);
   });
 };
 
 export default Object.freeze(
   Object.create(null, {
     readSedra: { value: readSedra, enumerable: true },
-    writeFile: { value: writeFile, enumerable: true },
+    writeContent: { value: writeContent, enumerable: true },
     buildRoots: { value: buildRoots, enumerable: true },
     buildLexemes: { value: buildLexemes, enumerable: true },
     parseWord: { value: model.parseWord, enumerable: true },

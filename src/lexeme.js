@@ -7,7 +7,7 @@ import { toCal } from 'sedra-cal';
  * @const
  * @type { RegExp }
  */
-const idRegex = /1:\d+,(?:0:(\d+,)|(NULL,))("[A-Z;/]+")(,.+)\r\n/gm;
+const lexemeRegex = /1:\d+,(?:0:(\d+,)|(NULL,))("[A-Z;/]+")(,.+)\r\n/gm;
 
 /**
  * Remove id from lexeme as id will be given by the position in the JS array.
@@ -19,7 +19,7 @@ const idRegex = /1:\d+,(?:0:(\d+,)|(NULL,))("[A-Z;/]+")(,.+)\r\n/gm;
  */
 const parseLexemes = content =>
   content.replace(
-    idRegex,
+    lexemeRegex,
     (match, id, noId, lexeme, line) =>
       `,l(${noId ? 'null,' : id}${toCal(lexeme)}${line})`
   );

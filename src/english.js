@@ -6,7 +6,7 @@
  * @const
  * @type { RegExp }
  */
-const idRegex = /3:\d+,(?:1:(\d+)|(NULL))(,.+)\r\n/gm;
+const englishRegex = /3:\d+,(?:1:(\d+)|(NULL))(,.+)\r\n/gm;
 
 /**
  * Remove id from english file as id will be given by the position in the array.
@@ -16,11 +16,10 @@ const idRegex = /3:\d+,(?:1:(\d+)|(NULL))(,.+)\r\n/gm;
  * @returns { string } Parsed english content
  */
 const parseEnglish = content =>
-  content
-    .replace(
-      idRegex,
-      (match, id, noId, line) => `,e(${noId ? 'null' : id}${line})`
-    );
+  content.replace(
+    englishRegex,
+    (match, id, noId, line) => `,e(${noId ? 'null' : id}${line})`
+  );
 
 /**
  * Build english javascript from english records,

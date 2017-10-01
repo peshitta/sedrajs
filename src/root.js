@@ -7,7 +7,7 @@ import { toCal } from 'sedra-cal';
  * @const
  * @type { RegExp }
  */
-const idRegex = /0:\d+,("[A-Z;/]+")(,.+)\r\n/gm;
+const rootRegex = /0:\d+,("[A-Z;/]+")(,.+)\r\n/gm;
 
 /**
  * Remove id from roots as id will be given by the position in the JS array.
@@ -18,7 +18,10 @@ const idRegex = /0:\d+,("[A-Z;/]+")(,.+)\r\n/gm;
  * @returns { string } Parsed Root file
  */
 const parseRoots = content =>
-  content.replace(idRegex, (match, root, line) => `,r(${toCal(root)}${line})`);
+  content.replace(
+    rootRegex,
+    (match, root, line) => `,r(${toCal(root)}${line})`
+  );
 
 /**
  * Build roots javascript from root records,
