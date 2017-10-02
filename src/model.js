@@ -40,34 +40,6 @@ export const makeWord = (
     })
   );
 
-/**
- * Remove file id prefix from ids
- * @param { string } content Etymology file content
- */
-export const parseEtymology = content =>
-  content
-    .replace(/^4:/gm, '')
-    .replace(/,1:/gm, ',')
-    .replace(/,NULL,/gm, ',null,');
-
-/**
- * Etymology records, e.g. 4:1,1:1,"a\255h\256r",5
- *
- * @param { number } id e.g. 1
- * @param { number } lexemeId Lexeme address, e.g. 1
- * @param { string } word Word Origin, e.g. "a\255h\256r"
- * @param { number } attributes 16-bit map
- */
-export const makeEtymology = (id, lexemeId, word, attributes) =>
-  Object.freeze(
-    Object.create(null, {
-      id: { value: id, enumerable: true },
-      lexemeId: { value: lexemeId, enumerable: true },
-      word: { value: word, enumerable: true },
-      attributes: { value: attributes, enumerable: true }
-    })
-  );
-
 const idRegex = /^0:-?\d+,/gm;
 
 /**

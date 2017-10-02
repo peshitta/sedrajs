@@ -4,6 +4,7 @@ import { readFile, realpathSync, writeFile } from 'fs';
 import buildRoots from './root';
 import buildLexemes from './lexeme';
 import buildEnglish from './english';
+import buildEtymology from './etymology';
 import * as model from './model';
 
 /**
@@ -47,8 +48,7 @@ export default Object.freeze(
     parseWord: { value: model.parseWord, enumerable: true },
     makeWord: { value: model.makeWord, enumerable: true },
     buildEnglish: { value: buildEnglish, enumerable: true },
-    parseEtymology: { value: model.parseEtymology, enumerable: true },
-    makeEtymology: { value: model.makeEtymology, enumerable: true },
+    buildEtymology: { value: buildEtymology, enumerable: true },
     parseUbs: { value: model.parseUbs, enumerable: true },
     makeUbs: { value: model.makeUbs, enumerable: true }
   })

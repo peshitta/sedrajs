@@ -90,6 +90,7 @@ npm run build
     * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
     * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
     * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
+    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
 
 <a name="exp_module_sedra--module.exports"></a>
 
@@ -103,6 +104,19 @@ e.g. 3:165,1:97,"cause","without","","",0,0
 | Param | Type | Description |
 | --- | --- | --- |
 | content | <code>string</code> | English file content |
+
+<a name="exp_module_sedra--module.exports"></a>
+
+### module.exports(content) ⇒ <code>string</code> ⏏
+Build etymology javascript from etymology records,
+e.g. 4:10,1:75,"eu\310",5
+
+**Kind**: Exported function  
+**Returns**: <code>string</code> - Etymology javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Etymology file content |
 
 <a name="exp_module_sedra--module.exports"></a>
 

@@ -96,7 +96,7 @@ describe('Word', () => {
         .replace(idRegex, (match, id) => id)
         .split('\r\n')
         .map(id => parseInt(id, 10));
-      const ids = unsortedIds.sort((a, b) => a - b);
+      const ids = unsortedIds.slice(0).sort((a, b) => a - b);
       let holeCount = 0;
       let holeSize = 0;
       let maxHole = 0;
@@ -222,7 +222,7 @@ describe('Etymology', () => {
         .replace(idRegex, (match, id) => id)
         .split('\r\n')
         .map(id => parseInt(id, 10));
-      const ids = unsortedIds.sort((a, b) => a - b);
+      const ids = unsortedIds.slice(0).sort((a, b) => a - b);
       let holeCount = 0;
       let holeSize = 0;
       let maxHole = 0;
@@ -251,41 +251,54 @@ describe('Etymology', () => {
     });
   });
   it('Parse Etymology File', () => {
-    const file = sut.parseEtymology(
-      '4:56,NULL,"409.000000",8\r\n' +
-        '4:57,1:424,"410.000000",8\r\n' +
-        '4:58,1:560,"ga\\256r",5\r\n' +
-        '4:59,1:578,"glcsso\\256komon",5\r\n' +
-        '4:60,1:607,"ge\\256now",5\r\n' +
-        '4:61,1:669,"do\\256mow",5\r\n' +
-        '4:62,1:696,"dhna\\256rion",5\r\n' +
-        '4:63,1:697,"diayh\\256kh",5\r\n' +
-        '4:64,1:774,"h\\254gemc\\256n",5\r\n' +
-        '4:65,1:775,"h\\254gemc\\256n",21\r\n' +
-        '4:66,1:777,"i\\255dic\\256thw",5\r\n' +
-        '4:67,1:795,"767.000000",6\r\n' +
-        '4:68,1:809,"e\\255parjei\\256a",5\r\n' +
-        '4:69,1:818,"a\\261rcma",5\r\n' +
-        '4:70,1:825,"ai\\260resiw",5\r\n' +
-        '4:71,1:859,"zeu\\264gos",5\r\n'
+    const file = sut.buildEtymology(
+      '4:1,1:1,"a\\255h\\256r",5\r\n' +
+        '4:2,1:20,"a\\255gc\\256n",5\r\n' +
+        '4:3,1:22,"a\\255gro\\256w",5\r\n' +
+        '4:4,1:36,"ei\\310dow",5\r\n' +
+        '4:5,1:46,"eu\\255jaristi\\256a",5\r\n' +
+        '4:6,1:50,"eu\\255agge\\256lion",5\r\n' +
+        '4:7,1:53,"o\\261gkinow",5\r\n' +
+        '4:8,1:57,"eu\\255roklu\\256dcn",5\r\n' +
+        '4:9,1:61,"64.000000",6\r\n' +
+        '4:10,1:75,"eu\\310",5\r\n' +
+        '4:11,1:77,"86.000000",8\r\n' +
+        '4:12,1:1797,"me\\256n",5\r\n' +
+        '4:13,1:97,"ei\\255k\\224\\264",5\r\n' +
+        '4:14,1:106,"e\\261jidna",5\r\n' +
+        '4:15,1:119,"o\\261jlow",5\r\n' +
+        '4:16,1:122,"xe\\256now",5\r\n' +
+        '4:17,1:161,"a\\255me\\256yustow",5\r\n' +
+        '4:19,1:191,"a\\255na\\256gkh",5\r\n' +
+        '4:20,1:198,"a\\255nyu\\256patow",5\r\n' +
+        '4:21,NULL,"409.000000",8\r\n' +
+        '4:22,1:859,"zeu\\264gos",5\r\n'
     );
     const parsedfile =
-      '56,null,"409.000000",8\r\n' +
-      '57,424,"410.000000",8\r\n' +
-      '58,560,"ga\\256r",5\r\n' +
-      '59,578,"glcsso\\256komon",5\r\n' +
-      '60,607,"ge\\256now",5\r\n' +
-      '61,669,"do\\256mow",5\r\n' +
-      '62,696,"dhna\\256rion",5\r\n' +
-      '63,697,"diayh\\256kh",5\r\n' +
-      '64,774,"h\\254gemc\\256n",5\r\n' +
-      '65,775,"h\\254gemc\\256n",21\r\n' +
-      '66,777,"i\\255dic\\256thw",5\r\n' +
-      '67,795,"767.000000",6\r\n' +
-      '68,809,"e\\255parjei\\256a",5\r\n' +
-      '69,818,"a\\261rcma",5\r\n' +
-      '70,825,"ai\\260resiw",5\r\n' +
-      '71,859,"zeu\\264gos",5\r\n';
+      "import{getEtymology as t}from 'sedra-model';export default Object.freeze([," +
+      't(1,"a\\\\255h\\\\256r",5),' +
+      't(20,"a\\\\255gc\\\\256n",5),' +
+      't(22,"a\\\\255gro\\\\256w",5),' +
+      't(36,"ei\\\\310dow",5),' +
+      't(46,"eu\\\\255jaristi\\\\256a",5),' +
+      't(50,"eu\\\\255agge\\\\256lion",5),' +
+      't(53,"o\\\\261gkinow",5),' +
+      't(57,"eu\\\\255roklu\\\\256dcn",5),' +
+      't(61,"64.000000",6),' +
+      't(75,"eu\\\\310",5),' +
+      't(77,"86.000000",8),' +
+      't(1797,"me\\\\256n",5),' +
+      't(97,"ei\\\\255k\\\\224\\\\264",5),' +
+      't(106,"e\\\\261jidna",5),' +
+      't(119,"o\\\\261jlow",5),' +
+      't(122,"xe\\\\256now",5),' +
+      't(161,"a\\\\255me\\\\256yustow",5),' +
+      ',' +
+      't(191,"a\\\\255na\\\\256gkh",5),' +
+      't(198,"a\\\\255nyu\\\\256patow",5),' +
+      't(null,"409.000000",8),' +
+      't(859,"zeu\\\\264gos",5)' +
+      ']);';
     test.strictEqual(file, parsedfile, 'parsed file');
   });
 });
@@ -335,12 +348,6 @@ describe('Sedra model', () => {
       'morphologicalType matching'
     );
     test.strictEqual(m.attributes, 128, 'attributes matching');
-  });
-  it('Make Etymology', () => {
-    const m = sut.makeEtymology(4, 46, 'eu\\255jaristi\\256a', 5);
-    test.strictEqual(m.lexemeId, 46, 'lexemeId matching');
-    test.strictEqual(m.word, 'eu\\255jaristi\\256a', 'word matching');
-    test.strictEqual(m.attributes, 5, 'attributes matching');
   });
   it('Make Ubs', () => {
     const m = sut.makeUbs(86, 520100906, 33554991, 4);
