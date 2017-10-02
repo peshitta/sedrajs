@@ -91,18 +91,19 @@ describe('Word', () => {
   it('Db HAS id holes', done => {
     const idRegex = /^2:(\d+),.+$/gm;
     sut.readSedra('WORDS.TXT', content => {
-      const ids = content
+      const unsortedIds = content
         .trim()
         .replace(idRegex, (match, id) => id)
         .split('\r\n')
-        .map(id => parseInt(id, 10))
-        .sort((a, b) => a - b);
+        .map(id => parseInt(id, 10));
+      const ids = unsortedIds.sort((a, b) => a - b);
       let holeCount = 0;
       let holeSize = 0;
       let maxHole = 0;
       const len = ids.length;
       for (let i = 0, j = 0; i < len; i++) {
         const id = ids[i];
+        test.strictEqual(id, unsortedIds[i], 'ids are sorted');
         if (id !== j + 1) {
           ++holeCount;
           const hole = id - j - 1;
@@ -216,18 +217,19 @@ describe('Etymology', () => {
   it('Db HAS id holes', done => {
     const idRegex = /^4:(\d+),.+$/gm;
     sut.readSedra('ETIMOLGY.TXT', content => {
-      const ids = content
+      const unsortedIds = content
         .trim()
         .replace(idRegex, (match, id) => id)
         .split('\r\n')
-        .map(id => parseInt(id, 10))
-        .sort((a, b) => a - b);
+        .map(id => parseInt(id, 10));
+      const ids = unsortedIds.sort((a, b) => a - b);
       let holeCount = 0;
       let holeSize = 0;
       let maxHole = 0;
       const len = ids.length;
       for (let i = 0, j = 0; i < len; i++) {
         const id = ids[i];
+        test.strictEqual(id, unsortedIds[i], 'ids are sorted');
         if (id !== j + 1) {
           ++holeCount;
           const hole = id - j - 1;
