@@ -1,5 +1,3 @@
-/** @module sedra */
-
 /**
  * Regex to remove ids from file
  * @private

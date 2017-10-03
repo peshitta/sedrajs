@@ -87,60 +87,43 @@ npm run build
 ## API Reference
 
 * [sedra](#module_sedra)
-    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
-    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
-    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
-    * [module.exports(content)](#exp_module_sedra--module.exports) ⇒ <code>string</code> ⏏
+    * [~readSedra(dbName, contentHandler)](#module_sedra..readSedra)
+    * [~writeContent(filePath, content)](#module_sedra..writeContent)
+    * [~contentHandler](#module_sedra..contentHandler) : <code>function</code>
 
-<a name="exp_module_sedra--module.exports"></a>
+<a name="module_sedra..readSedra"></a>
 
-### module.exports(content) ⇒ <code>string</code> ⏏
-Build english javascript from english records,
-e.g. 3:165,1:97,"cause","without","","",0,0
+### sedra~readSedra(dbName, contentHandler)
+Read Sedra db file asynchronously and process it
 
-**Kind**: Exported function  
-**Returns**: <code>string</code> - English javascript  
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| content | <code>string</code> | English file content |
+| dbName | <code>string</code> | Sedra text database file name |
+| contentHandler | <code>contentHandler</code> | callback to process file content |
 
-<a name="exp_module_sedra--module.exports"></a>
+<a name="module_sedra..writeContent"></a>
 
-### module.exports(content) ⇒ <code>string</code> ⏏
-Build etymology javascript from etymology records,
-e.g. 4:10,1:75,"eu\310",5
+### sedra~writeContent(filePath, content)
+Write content into given filePath asynchronously.
 
-**Kind**: Exported function  
-**Returns**: <code>string</code> - Etymology javascript  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | Etymology file content |
-
-<a name="exp_module_sedra--module.exports"></a>
-
-### module.exports(content) ⇒ <code>string</code> ⏏
-Build lexemes javascript from lexeme records,
-e.g. 1:2,0:2,"ABA",41960448,16
-
-**Kind**: Exported function  
-**Returns**: <code>string</code> - Lexemes javascript  
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| content | <code>string</code> | Lexeme file content |
+| filePath | <code>string</code> | file to write content to |
+| content | <code>string</code> | file content to write |
 
-<a name="exp_module_sedra--module.exports"></a>
+<a name="module_sedra..contentHandler"></a>
 
-### module.exports(content) ⇒ <code>string</code> ⏏
-Build roots javascript from root records,
-e.g. 0:2,"AB","ab           |A",0
+### sedra~contentHandler : <code>function</code>
+Sedra db text file content handler: logic to
+transform file after being read from disk.
 
-**Kind**: Exported function  
-**Returns**: <code>string</code> - Roots javascript  
+**Kind**: inner typedef of [<code>sedra</code>](#module_sedra)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| content | <code>string</code> | Root file content |
+| content | <code>string</code> | Sedra db text file content |
 

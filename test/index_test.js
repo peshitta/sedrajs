@@ -124,34 +124,39 @@ describe('Word', () => {
       done();
     });
   });
-  it('Parse Word File', () => {
-    const file = sut.parseWord(
-      '2:59,1:2,"LABOH","LaAB,uOH",6883480,128\r\n' +
-        '2:60,1:2,"LABOH;","LaAB,uOH_;",6883476,128\r\n' +
-        '2:61,1:2,"LABOH;N","LaAB,uOHe;N",6883544,128\r\n' +
-        '2:62,1:2,"LABOC","LaAB,uOC,",6883492,128\r\n' +
-        '2:63,1:2,"LABOCON","LaAB,uOC,uON",6883556,128\r\n' +
-        '2:64,1:2,"LABON","LaAB,uON",6883568,128\r\n' +
-        '2:65,1:2,"LAB;","LoAB,;",6883504,128\r\n' +
-        '2:66,1:3,"ABHOTA","AaB,oHuOT,oA",6914048,192\r\n' +
-        '2:67,1:4,"ABHON","AeB\'HuON",6881492,128\r\n' +
-        '2:68,1:4,"OABC;","OeAB\'eC,;",6882984,128\r\n' +
-        '2:69,1:4,"ABA","AeB\'oA",6881280,320\r\n' +
-        '2:70,1:5,"ABD","AoB,eD,",109772800,128\r\n'
+  it('Build Word Javascript', () => {
+    const file = sut.buildWords(
+      '2:1,1:2,"LABOH","LaAB,uOH",6883480,128\r\n' +
+        '2:2,1:2,"LABOH;","LaAB,uOH_;",6883476,128\r\n' +
+        '2:3,1:2,"LABOH;N","LaAB,uOHe;N",6883544,128\r\n' +
+        '2:7,1:2,"LABOC","LaAB,uOC,",6883492,128\r\n' +
+        '2:8,1:2,"LABOCON","LaAB,uOC,uON",6883556,128\r\n' +
+        '2:9,NULL,"LABON","LaAB,uON",6883568,128\r\n' +
+        '2:10,1:2,"LAB;","LoAB,;",6883504,128\r\n' +
+        '2:11,1:3,"ABHOTA","AaB,oHuOT,oA",6914048,192\r\n' +
+        '2:13,1:4,"ABHON","AeB\'HuON",6881492,128\r\n' +
+        '2:14,1:4,"OABC;","OeAB\'eC,;",6882984,128\r\n' +
+        '2:15,1:4,"ABA","AeB\'oA",6881280,320\r\n' +
+        '2:20,1:5,"ABD","AoB,eD,",109772800,128\r\n'
     );
     const parsedfile =
-      '59,2,"LABOH","LaAB,uOH",6883480,128\r\n' +
-      '60,2,"LABOH;","LaAB,uOH_;",6883476,128\r\n' +
-      '61,2,"LABOH;N","LaAB,uOHe;N",6883544,128\r\n' +
-      '62,2,"LABOC","LaAB,uOC,",6883492,128\r\n' +
-      '63,2,"LABOCON","LaAB,uOC,uON",6883556,128\r\n' +
-      '64,2,"LABON","LaAB,uON",6883568,128\r\n' +
-      '65,2,"LAB;","LoAB,;",6883504,128\r\n' +
-      '66,3,"ABHOTA","AaB,oHuOT,oA",6914048,192\r\n' +
-      '67,4,"ABHON","AeB\'HuON",6881492,128\r\n' +
-      '68,4,"OABC;","OeAB\'eC,;",6882984,128\r\n' +
-      '69,4,"ABA","AeB\'oA",6881280,320\r\n' +
-      '70,5,"ABD","AoB,eD,",109772800,128\r\n';
+      "import{getWord as w}from 'sedra-model';export default Object.freeze([," +
+      'w(2,"l)bwh","la)b,wuh",6883480,128),' +
+      'w(2,"l)bwhy","la)b,wuh_y",6883476,128),' +
+      'w(2,"l)bwhyn","la)b,wuheyn",6883544,128),' +
+      ',,,' +
+      'w(2,"l)bwk","la)b,wuk,",6883492,128),' +
+      'w(2,"l)bwkwn","la)b,wuk,wun",6883556,128),' +
+      'w(null,"l)bwn","la)b,wun",6883568,128),' +
+      'w(2,"l)by","lo)b,y",6883504,128),' +
+      'w(3,")bhwt)",")ab,ohwut,o)",6914048,192),' +
+      ',' +
+      'w(4,")bhwn",")eb\'hwun",6881492,128),' +
+      'w(4,"w)bky","we)b\'ek,y",6882984,128),' +
+      'w(4,")b)",")eb\'o)",6881280,320),' +
+      ',,,,' +
+      'w(5,")bd",")ob,ed,",109772800,128)' +
+      ']);';
     test.strictEqual(file, parsedfile, 'parsed file');
   });
 });
@@ -305,8 +310,17 @@ describe('Etymology', () => {
 
 describe('BFBS/UBS', () => {
   it('Parse BFBS/UBS File', () => {
-    const file = sut.parseUbs(
-      '0:-32628,541601508,33567919,0\r\n' +
+    const file = sut.buildUbs(
+      '0:1,520100101,33565194,64\r\n' +
+        '0:2,520100102,33563576,0\r\n' +
+        '0:3,520100103,33564000,0\r\n' +
+        '0:4,520100104,33566955,16\r\n' +
+        '0:5,520100105,33557677,0\r\n' +
+        '0:6,520100106,33558659,24\r\n' +
+        '0:7,520100107,33557677,0\r\n' +
+        '0:8,520100108,33554599,36\r\n' +
+        '0:9,520100201,33554597,0\r\n' +
+        '0:-32628,541601508,33567919,0\r\n' +
         '0:-32627,541601509,33572533,0\r\n' +
         '0:-32626,541601510,33557662,-28672\r\n' +
         '0:-32625,541601511,33555860,4100\r\n' +
@@ -320,40 +334,7 @@ describe('BFBS/UBS', () => {
         '0:-32617,541601519,33555871,-32752\r\n'
     );
     const parsedfile =
-      '541601508,33567919,0\r\n' +
-      '541601509,33572533,0\r\n' +
-      '541601510,33557662,-28672\r\n' +
-      '541601511,33555860,4100\r\n' +
-      '541601512,33555337,0\r\n' +
-      '541601513,33558837,0\r\n' +
-      '541601514,33563118,0\r\n' +
-      '541601515,33565392,-32764\r\n' +
-      '541601516,33565838,0\r\n' +
-      '541601517,33574171,0\r\n' +
-      '541601518,33557095,0\r\n' +
-      '541601519,33555871,-32752';
+      'export default{52:{1:{1:[10762,9144,9568,12523,3245,4227,3245,167],2:[165]}},54:{16:{15:[null,null,null,null,null,null,null,13487,18101,3230,1428,905,4405,8686,10960,11406,19739,2663,1439]}}};';
     test.strictEqual(file, parsedfile, 'parsed file');
-  });
-});
-
-describe('Sedra model', () => {
-  it('Make Word', () => {
-    const m = sut.makeWord(3, 55, 'MOBDO', "MaOB'oD,uO", 369098752, 128);
-    test.strictEqual(m.lexemeId, 55, 'lexemeId matching');
-    test.strictEqual(m.word, 'MOBDO', 'word matching');
-    test.strictEqual(m.vocalised, "MaOB'oD,uO", 'vocalised matching');
-    test.strictEqual(
-      m.morphologicalType,
-      369098752,
-      'morphologicalType matching'
-    );
-    test.strictEqual(m.attributes, 128, 'attributes matching');
-  });
-  it('Make Ubs', () => {
-    const m = sut.makeUbs(86, 520100906, 33554991, 4);
-    test.strictEqual(m.id, 86, 'id matching');
-    test.strictEqual(m.reference, 520100906, 'reference matching');
-    test.strictEqual(m.wordId, 33554991, 'wordId matching');
-    test.strictEqual(m.parentWordId, 4, 'parentWordId matching');
   });
 });

@@ -25,7 +25,8 @@
       "no-nested-ternary": 0,
       "function-paren-newline": 0,
       "import/extensions": 0,
-      "arrow-parens": 0
+      "arrow-parens": 0,
+      "no-bitwise": 0
     }
   },
   "files": [

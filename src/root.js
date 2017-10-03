@@ -1,4 +1,3 @@
-/** @module sedra */
 import { toCal } from 'sedra-cal';
 
 /**

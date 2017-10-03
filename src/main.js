@@ -3,9 +3,10 @@ import { join } from 'path';
 import { readFile, realpathSync, writeFile } from 'fs';
 import buildRoots from './root';
 import buildLexemes from './lexeme';
+import buildWords from './word';
 import buildEnglish from './english';
 import buildEtymology from './etymology';
-import * as model from './model';
+import buildUbs from './ubs';
 
 /**
  * Sedra db text file content handler: logic to
@@ -45,11 +46,9 @@ export default Object.freeze(
     writeContent: { value: writeContent, enumerable: true },
     buildRoots: { value: buildRoots, enumerable: true },
     buildLexemes: { value: buildLexemes, enumerable: true },
-    parseWord: { value: model.parseWord, enumerable: true },
-    makeWord: { value: model.makeWord, enumerable: true },
+    buildWords: { value: buildWords, enumerable: true },
     buildEnglish: { value: buildEnglish, enumerable: true },
     buildEtymology: { value: buildEtymology, enumerable: true },
-    parseUbs: { value: model.parseUbs, enumerable: true },
-    makeUbs: { value: model.makeUbs, enumerable: true }
+    buildUbs: { value: buildUbs, enumerable: true }
   })
 );
