@@ -1,5 +1,5 @@
 const test = require('assert');
-const sut = require('../build/sedrajs');
+const sut = require('../build/dist/convert');
 
 describe('Root', () => {
   it('Db has no id holes', done => {

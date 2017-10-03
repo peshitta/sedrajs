@@ -87,9 +87,93 @@ npm run build
 ## API Reference
 
 * [sedra](#module_sedra)
+    * [~buildRoots(content)](#module_sedra..buildRoots) ⇒ <code>string</code>
+    * [~buildLexemes(content)](#module_sedra..buildLexemes) ⇒ <code>string</code>
+    * [~buildWords(content)](#module_sedra..buildWords) ⇒ <code>string</code>
+    * [~buildEnglish(content)](#module_sedra..buildEnglish) ⇒ <code>string</code>
+    * [~buildEtymology(content)](#module_sedra..buildEtymology) ⇒ <code>string</code>
+    * [~buildUbs(content)](#module_sedra..buildUbs) ⇒ <code>string</code>
     * [~readSedra(dbName, contentHandler)](#module_sedra..readSedra)
     * [~writeContent(filePath, content)](#module_sedra..writeContent)
     * [~contentHandler](#module_sedra..contentHandler) : <code>function</code>
+
+<a name="module_sedra..buildRoots"></a>
+
+### sedra~buildRoots(content) ⇒ <code>string</code>
+Build roots javascript from root records,
+e.g. 0:2,"AB","ab           |A",0
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - Roots javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Root file content |
+
+<a name="module_sedra..buildLexemes"></a>
+
+### sedra~buildLexemes(content) ⇒ <code>string</code>
+Build lexemes javascript from lexeme records,
+e.g. 1:2,0:2,"ABA",41960448,16
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - Lexemes javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Lexeme file content |
+
+<a name="module_sedra..buildWords"></a>
+
+### sedra~buildWords(content) ⇒ <code>string</code>
+Build word javascript from word records,
+e.g. 2:31070,1:2055,"DMSBRNOTA","D'aMSaB'RoNuOT,oA",6915072,128
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - Word javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Word file content |
+
+<a name="module_sedra..buildEnglish"></a>
+
+### sedra~buildEnglish(content) ⇒ <code>string</code>
+Build english javascript from english records,
+e.g. 3:165,1:97,"cause","without","","",0,0
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - English javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | English file content |
+
+<a name="module_sedra..buildEtymology"></a>
+
+### sedra~buildEtymology(content) ⇒ <code>string</code>
+Build etymology javascript from etymology records,
+e.g. 4:10,1:75,"eu\310",5
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - Etymology javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Etymology file content |
+
+<a name="module_sedra..buildUbs"></a>
+
+### sedra~buildUbs(content) ⇒ <code>string</code>
+Build ubs javascript from ubs records,
+e.g. 0:8,520100108,33554599,36
+
+**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Returns**: <code>string</code> - Ubs javascript  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| content | <code>string</code> | Ubs file content |
 
 <a name="module_sedra..readSedra"></a>
 

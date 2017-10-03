@@ -1,4 +1,3 @@
-/** @module sedra */
 import { join } from 'path';
 import { readFile, realpathSync, writeFile } from 'fs';
 import buildRoots from './root';
@@ -21,7 +20,7 @@ import buildUbs from './ubs';
  * @param { contentHandler } contentHandler callback to process file content
  */
 const readSedra = (dbName, contentHandler) => {
-  const file = realpathSync(join(__dirname, '../sedra', dbName));
+  const file = realpathSync(join(__dirname, '../../sedra', dbName));
   readFile(file, 'utf8', (error, content) => {
     if (error) throw error;
     contentHandler(content);

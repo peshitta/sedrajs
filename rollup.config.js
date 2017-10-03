@@ -1,5 +1,4 @@
-import babel from 'rollup-plugin-babel';
-import babelrc from 'babelrc-rollup';
+import buble from 'rollup-plugin-buble';
 import istanbul from 'rollup-plugin-istanbul';
 import uglify from 'rollup-plugin-uglify';
 import resolve from 'rollup-plugin-node-resolve';
@@ -8,7 +7,8 @@ import pkg from './package.json';
 const isProduction = process.env.BUILD === 'production';
 const isDev = process.env.BUILD === 'dev';
 const banner = isProduction
-  ? '/**\n' +
+  ? '/** @module sedra */\n' +
+    '/**\n' +
     '* @file A JavaScript representation of SEDRA 3 database\n' +
     '* @version 1.0.0\n' +
     '* @author Greg Borota\n' +
@@ -77,16 +77,17 @@ const input = 'src/main.js';
 const name = 'sedrajs';
 const format = 'cjs';
 const globals = {
-  'sedra-cal': 'sedraCal'
+  'sedra-cal': 'sedraCal',
+  'sedra-model': 'sedraModel'
 };
 const sourcemap = !isProduction;
-const plugins = [resolve(), babel(babelrc({ path: 'babelrc.json' }))];
+const plugins = [resolve(), buble()];
 
 // browser-friendly UMD build
 const targets = [
   {
     input,
-    output: [{ file: pkg.main, format }],
+    output: [{ file: pkg.convert, format }],
     external,
     plugins: plugins.slice(0),
     name,
@@ -97,30 +98,11 @@ const targets = [
 ];
 
 if (isProduction) {
-  // ES module (for bundlers) build.
-  targets.push({
-    input,
-    output: [{ file: pkg.module, format: 'es' }],
-    external,
-    plugins: plugins.slice(0),
-    banner
-  });
-
-  plugins.push(
-    uglify({
-      output: {
-        comments: (node, comment) => {
-          const { value, type } = comment;
-          return type === 'comment2' && /@license/i.test(value);
-        }
-      }
-    })
-  );
-
   // browser-friendly minified UMD build
+  plugins.push(uglify());
   targets.push({
     input,
-    output: [{ file: pkg.main݂Min, format }],
+    output: [{ file: pkg.convertMin, format }],
     external,
     plugins,
     name,
