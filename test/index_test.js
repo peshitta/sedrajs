@@ -202,7 +202,7 @@ describe('readDb', () => {
 
 describe('writeDb', () => {
   it('Throws on invalid file name', done => {
-    writeDb('InvalidName!<>"', null).catch(() => {
+    writeDb('Inv/al\\id:Name!<>"', null).catch(() => {
       done();
     });
   });

@@ -31,7 +31,10 @@
       "arrow-parens": 0
     }
   },
-  "files": ["sedra", "build/convert/*.*js"],
+  "files": [
+    "sedra",
+    "build/convert/*.*js"
+  ],
   "engines": {
     "node": ">=6.0.0"
   },
