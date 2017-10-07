@@ -18,7 +18,7 @@
     "lint": "eslint src test",
     "doc": "jsdoc2md -t doc/readme.hbs src/*.js > README.md",
     "coverage": "cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "prepublishOnly": "npm run build",
+    "prepublish": "npm run build",
     "postinstall": "node build/convert/convert.min.js"
   },
   "eslintConfig": {
@@ -34,7 +34,7 @@
   },
   "files": ["build/convert/*.*js"],
   "engines": {
-    "node": ">=8.6.0"
+    "node": ">=6.0.0"
   },
   "repository": {
     "type": "git",
@@ -61,6 +61,7 @@
   },
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
+    "fs-extra": "^4.0.2",
     "sedra-model": "^1.0.0",
     "sedra-parse": "^1.0.0"
   },

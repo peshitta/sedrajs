@@ -1,7 +1,6 @@
 /** @module convert */
 import { join } from 'path';
-import { promisify } from 'util';
-import { realpath, readFile, writeFile } from 'fs';
+import { realpath, readFile, writeFile } from 'fs-extra';
 import {
   getRoots,
   getLexemes,
@@ -11,9 +10,6 @@ import {
   getUbs
 } from 'sedra-parse';
 
-const fullpath = promisify(realpath);
-const read = promisify(readFile);
-const write = promisify(writeFile);
 const outDir = `${__dirname}/../`;
 const throwError = error => {
   throw error;
@@ -34,9 +30,9 @@ const throwError = error => {
  * @returns { Promise.<string> } Converted content promise
  */
 const readDb = (db, converter) =>
-  fullpath(join(__dirname, '../../sedra', db))
+  realpath(join(__dirname, '../../sedra', db))
     .then(file =>
-      read(file, 'utf8')
+      readFile(file, 'utf8')
         .then(content => converter(content))
         .catch(throwError)
     )
@@ -50,9 +46,9 @@ const readDb = (db, converter) =>
  * @returns { Promise } File write promise
  */
 const writeDb = (filePath, content) =>
-  write(filePath, content, 'utf8')
+  writeFile(filePath, content, 'utf8')
     .then(() => {
-      fullpath(filePath)
+      realpath(filePath)
         .then(file => {
           global.console.log(`Saved '${file}'`);
         })
