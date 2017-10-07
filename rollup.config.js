@@ -71,7 +71,7 @@ const banner = isProduction
     '// http://cal1.cn.huc.edu/searching/fullbrowser.html\n'
   : '';
 
-const external = Object.keys(pkg.dependencies).concat(['path', 'util', 'fs']);
+const external = Object.keys(pkg.dependencies).concat(['path']);
 const input = 'src/main.js';
 const name = 'sedrajs';
 const format = 'cjs';
