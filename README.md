@@ -26,11 +26,18 @@ Sedrajs files are not available for distribution, by design. Only the
 un-modified Sedra 3 database files and the conversion scripts are packaged.
 You have to run the conversion scripts, by running the command above. That will
 convert Sedra 3 text database and place it in your `node_modules` folder as:
-* `sedra.esm.js` - An ES6 module bundle, suitable for use in other people's
-libraries and applications.
-* `sedra.js` - A general UMD build, suitable for use in any environment
+* `sedra.esm.js` - An ES6 module, suitable for use with module bundlers like
+`rollup` or `webpack`.
+* `sedra.js` - A general UMD bundle, suitable for use in any environment
 (Web browser, Node.js, etc.)
-* `sedra.min.js` - A minified version of `sedra.js` build.
+
+The conversion scripts are stored in `build/convert` directory as:
+* `convert.js` - Un-minified cjs node script.
+* `convert.min.js` - Minified cjs node script
+* `convert.mjs` - ES6 mjs node script - can be run with Node.js 8 and higher
+
+The conversion script package could also be downloaded directly from:
+[https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.0.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.0.tgz)
 
 ## More information
 
@@ -84,128 +91,107 @@ npm install
 npm run build
 ```
 
-## API Reference
+## Sedra.js API Reference
 
-* [sedra](#module_sedra)
-    * [~buildRoots(content)](#module_sedra..buildRoots) ⇒ <code>string</code>
-    * [~buildLexemes(content)](#module_sedra..buildLexemes) ⇒ <code>string</code>
-    * [~buildWords(content)](#module_sedra..buildWords) ⇒ <code>string</code>
-    * [~buildEnglish(content)](#module_sedra..buildEnglish) ⇒ <code>string</code>
-    * [~buildEtymology(content)](#module_sedra..buildEtymology) ⇒ <code>string</code>
-    * [~buildUbs(content)](#module_sedra..buildUbs) ⇒ <code>string</code>
-    * [~readSedra(dbName, contentHandler)](#module_sedra..readSedra)
-    * [~writeContent(filePath, content)](#module_sedra..writeContent)
-    * [~contentHandler](#module_sedra..contentHandler) : <code>function</code>
+For the structure of `Root`, `Lexeme`, `Word`, `English` and `Etymology` types
+see [Sedra Model](https://github.com/peshitta/sedra-model/blob/master/README.md)
 
-<a name="module_sedra..buildRoots"></a>
 
-### sedra~buildRoots(content) ⇒ <code>string</code>
-Build roots javascript from root records,
-e.g. 0:2,"AB","ab           |A",0
+* [sedrajs](#module_sedrajs)
+    * [.roots](#module_sedrajs.roots) : <code>Array.&lt;Root&gt;</code>
+    * [.lexemes](#module_sedrajs.lexemes) : <code>Array.&lt;Lexeme&gt;</code>
+    * [.words](#module_sedrajs.words) : <code>Array.&lt;Word&gt;</code>
+    * [.english](#module_sedrajs.english) : <code>Array.&lt;English&gt;</code>
+    * [.etymology](#module_sedrajs.etymology) : <code>Array.&lt;Etymology&gt;</code>
+    * [.ubs](#module_sedrajs.ubs) : <code>Object</code>
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - Roots javascript  
+<a name="module_sedrajs.roots"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | Root file content |
+### sedrajs.roots : <code>Array.&lt;Root&gt;</code>
+Array of Root objects created from Sedra 3 root records
 
-<a name="module_sedra..buildLexemes"></a>
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
+<a name="module_sedrajs.lexemes"></a>
 
-### sedra~buildLexemes(content) ⇒ <code>string</code>
-Build lexemes javascript from lexeme records,
-e.g. 1:2,0:2,"ABA",41960448,16
+### sedrajs.lexemes : <code>Array.&lt;Lexeme&gt;</code>
+Array of Lexeme objects created from Sedra 3 lexeme records
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - Lexemes javascript  
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
+<a name="module_sedrajs.words"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | Lexeme file content |
+### sedrajs.words : <code>Array.&lt;Word&gt;</code>
+Array of Word objects created from Sedra 3 word records
 
-<a name="module_sedra..buildWords"></a>
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
+<a name="module_sedrajs.english"></a>
 
-### sedra~buildWords(content) ⇒ <code>string</code>
-Build word javascript from word records,
-e.g. 2:31070,1:2055,"DMSBRNOTA","D'aMSaB'RoNuOT,oA",6915072,128
+### sedrajs.english : <code>Array.&lt;English&gt;</code>
+Array of English objects created from Sedra 3 english records
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - Word javascript  
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
+<a name="module_sedrajs.etymology"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | Word file content |
+### sedrajs.etymology : <code>Array.&lt;Etymology&gt;</code>
+Array of Etymology objects created from Sedra 3 etymology records
 
-<a name="module_sedra..buildEnglish"></a>
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
+<a name="module_sedrajs.ubs"></a>
 
-### sedra~buildEnglish(content) ⇒ <code>string</code>
-Build english javascript from english records,
-e.g. 3:165,1:97,"cause","without","","",0,0
+### sedrajs.ubs : <code>Object</code>
+A hierarchical object with books as first level keys, with chapters objects
+under each book, then verse objects under each chapter and word id arrays as
+leaves, referencing the actual content for each book.
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - English javascript  
+**Kind**: static constant of [<code>sedrajs</code>](#module_sedrajs)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | English file content |
+## Conversion script API
 
-<a name="module_sedra..buildEtymology"></a>
+* [convert](#module_convert)
+    * [.convertDb](#module_convert.convertDb) ⇒ <code>Promise</code>
+    * [.readDb(db, converter)](#module_convert.readDb) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.writeDb(filePath, content)](#module_convert.writeDb) ⇒ <code>Promise</code>
+    * [.converter](#module_convert.converter) ⇒ <code>string</code>
 
-### sedra~buildEtymology(content) ⇒ <code>string</code>
-Build etymology javascript from etymology records,
-e.g. 4:10,1:75,"eu\310",5
+<a name="module_convert.convertDb"></a>
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - Etymology javascript  
+### convert.convertDb ⇒ <code>Promise</code>
+Read all of Sedra 3 text database and convert it to JavaScript
 
-| Param | Type | Description |
-| --- | --- | --- |
-| content | <code>string</code> | Etymology file content |
+**Kind**: static constant of [<code>convert</code>](#module_convert)  
+**Returns**: <code>Promise</code> - Promise for JavaScript database  
+<a name="module_convert.readDb"></a>
 
-<a name="module_sedra..buildUbs"></a>
+### convert.readDb(db, converter) ⇒ <code>Promise.&lt;string&gt;</code>
+Read Sedra db file asynchronously and returns converted content promise
 
-### sedra~buildUbs(content) ⇒ <code>string</code>
-Build ubs javascript from ubs records,
-e.g. 0:8,520100108,33554599,36
-
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-**Returns**: <code>string</code> - Ubs javascript  
+**Kind**: static method of [<code>convert</code>](#module_convert)  
+**Returns**: <code>Promise.&lt;string&gt;</code> - Converted content promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| content | <code>string</code> | Ubs file content |
+| db | <code>string</code> | Sedra text database file name |
+| converter | <code>converter</code> | Content converter |
 
-<a name="module_sedra..readSedra"></a>
+<a name="module_convert.writeDb"></a>
 
-### sedra~readSedra(dbName, contentHandler)
-Read Sedra db file asynchronously and process it
+### convert.writeDb(filePath, content) ⇒ <code>Promise</code>
+Write content asynchronously and return promise
 
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| dbName | <code>string</code> | Sedra text database file name |
-| contentHandler | <code>contentHandler</code> | callback to process file content |
-
-<a name="module_sedra..writeContent"></a>
-
-### sedra~writeContent(filePath, content)
-Write content into given filePath asynchronously.
-
-**Kind**: inner method of [<code>sedra</code>](#module_sedra)  
+**Kind**: static method of [<code>convert</code>](#module_convert)  
+**Returns**: <code>Promise</code> - File write promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| filePath | <code>string</code> | file to write content to |
-| content | <code>string</code> | file content to write |
+| filePath | <code>string</code> | File path to write to |
+| content | <code>converter</code> | File content to save |
 
-<a name="module_sedra..contentHandler"></a>
+<a name="module_convert.converter"></a>
 
-### sedra~contentHandler : <code>function</code>
-Sedra db text file content handler: logic to
-transform file after being read from disk.
+### convert.converter ⇒ <code>string</code>
+Sedra db content converter: callback to transform content read from disk.
 
-**Kind**: inner typedef of [<code>sedra</code>](#module_sedra)  
+**Kind**: static typedef of [<code>convert</code>](#module_convert)  
+**Returns**: <code>string</code> - Converted content  
 
 | Param | Type | Description |
 | --- | --- | --- |

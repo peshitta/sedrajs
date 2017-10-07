@@ -26,11 +26,18 @@ Sedrajs files are not available for distribution, by design. Only the
 un-modified Sedra 3 database files and the conversion scripts are packaged.
 You have to run the conversion scripts, by running the command above. That will
 convert Sedra 3 text database and place it in your `node_modules` folder as:
-* `sedra.esm.js` - An ES6 module bundle, suitable for use in other people's
-libraries and applications.
-* `sedra.js` - A general UMD build, suitable for use in any environment
+* `sedra.esm.js` - An ES6 module, suitable for use with module bundlers like
+`rollup` or `webpack`.
+* `sedra.js` - A general UMD bundle, suitable for use in any environment
 (Web browser, Node.js, etc.)
-* `sedra.min.js` - A minified version of `sedra.js` build.
+
+The conversion scripts are stored in `build/convert` directory as:
+* `convert.js` - Un-minified cjs node script.
+* `convert.min.js` - Minified cjs node script
+* `convert.mjs` - ES6 mjs node script - can be run with Node.js 8 and higher
+
+The conversion script package could also be downloaded directly from:
+[https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.0.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.0.tgz)
 
 ## More information
 
@@ -84,8 +91,20 @@ npm install
 npm run build
 ```
 
-## API Reference
-{{#module name="sedra"}}
+## Sedra.js API Reference
+
+For the structure of `Root`, `Lexeme`, `Word`, `English` and `Etymology` types
+see [Sedra Model](https://github.com/peshitta/sedra-model/blob/master/README.md)
+
+{{#module name="sedrajs"}}
+{{>body~}}
+{{>member-index~}}
+{{>separator~}}
+{{>members~}}
+{{/module}}
+
+## Conversion script API
+{{#module name="convert"}}
 {{>body~}}
 {{>member-index~}}
 {{>separator~}}

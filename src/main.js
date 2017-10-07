@@ -1,53 +1,121 @@
+/** @module convert */
 import { join } from 'path';
-import { readFile, realpathSync, writeFile } from 'fs';
-import buildRoots from './root';
-import buildLexemes from './lexeme';
-import buildWords from './word';
-import buildEnglish from './english';
-import buildEtymology from './etymology';
-import buildUbs from './ubs';
+import { promisify } from 'util';
+import { realpath, readFile, writeFile } from 'fs';
+import {
+  getRoots,
+  getLexemes,
+  getWords,
+  getEnglish,
+  getEtymology,
+  getUbs
+} from 'sedra-parse';
+
+const fullpath = promisify(realpath);
+const read = promisify(readFile);
+const write = promisify(writeFile);
+const outDir = `${__dirname}/../`;
+const throwError = error => {
+  throw error;
+};
 
 /**
- * Sedra db text file content handler: logic to
- * transform file after being read from disk.
- * @callback contentHandler
+ * Sedra db content converter: callback to transform content read from disk.
+ * @static
+ * @callback converter
  * @param { string } content Sedra db text file content
+ * @returns { string } Converted content
  */
+/**
+ * Read Sedra db file asynchronously and returns converted content promise
+ * @static
+ * @param { string } db Sedra text database file name
+ * @param { converter } converter Content converter
+ * @returns { Promise.<string> } Converted content promise
+ */
+const readDb = (db, converter) =>
+  fullpath(join(__dirname, '../../sedra', db))
+    .then(file =>
+      read(file, 'utf8')
+        .then(content => converter(content))
+        .catch(throwError)
+    )
+    .catch(throwError);
 
 /**
- * Read Sedra db file asynchronously and process it
- * @param { string } dbName Sedra text database file name
- * @param { contentHandler } contentHandler callback to process file content
+ * Write content asynchronously and return promise
+ * @static
+ * @param { string } filePath File path to write to
+ * @param { converter } content File content to save
+ * @returns { Promise } File write promise
  */
-const readSedra = (dbName, contentHandler) => {
-  const file = realpathSync(join(__dirname, '../../sedra', dbName));
-  readFile(file, 'utf8', (error, content) => {
-    if (error) throw error;
-    contentHandler(content);
-  });
-};
+const writeDb = (filePath, content) =>
+  write(filePath, content, 'utf8')
+    .then(() => {
+      fullpath(filePath)
+        .then(file => {
+          global.console.log(`Saved '${file}'`);
+        })
+        .catch(throwError);
+    })
+    .catch(throwError);
+
+let roots = null;
+let lexemes = null;
+let words = null;
+let english = null;
+let etymology = null;
+let ubs = null;
+const rootPromise = readDb('ROOTS.TXT', getRoots).then(js => {
+  roots = js;
+});
+const lexemePromise = readDb('LEXEMES.TXT', getLexemes).then(js => {
+  lexemes = js;
+});
+const wordPromise = readDb('WORDS.TXT', getWords).then(js => {
+  words = js;
+});
+const englishPromise = readDb('ENGLISH.TXT', getEnglish).then(js => {
+  english = js;
+});
+const etymologyPromise = readDb('ETIMOLGY.TXT', getEtymology).then(js => {
+  etymology = js;
+});
+const ubsPromise = readDb('BFBS.TXT', getUbs).then(js => {
+  ubs = js;
+});
 
 /**
- * Write content into given filePath asynchronously.
- * @param { string } filePath file to write content to
- * @param { string } content file content to write
+ * Read all of Sedra 3 text database and convert it to JavaScript
+ * @static
+ * @const
+ * @returns { Promise } Promise for JavaScript database
  */
-const writeContent = (filePath, content) => {
-  writeFile(filePath, content, error => {
-    if (error) throw error;
-    global.console.log(`\nSaved '${realpathSync(filePath)}'`);
-  });
-};
-
-export default Object.freeze(
-  Object.create(null, {
-    readSedra: { value: readSedra, enumerable: true },
-    writeContent: { value: writeContent, enumerable: true },
-    buildRoots: { value: buildRoots, enumerable: true },
-    buildLexemes: { value: buildLexemes, enumerable: true },
-    buildWords: { value: buildWords, enumerable: true },
-    buildEnglish: { value: buildEnglish, enumerable: true },
-    buildEtymology: { value: buildEtymology, enumerable: true },
-    buildUbs: { value: buildUbs, enumerable: true }
+const convertDb = Promise.all([
+  rootPromise,
+  lexemePromise,
+  wordPromise,
+  englishPromise,
+  etymologyPromise,
+  ubsPromise
+])
+  .then(() => {
+    const content = `o=${roots}m=${lexemes}d=${words}n=${english}y=${etymology}u=${ubs}`;
+    const moduleHeader =
+      "import{getRoot as r,getLexeme as l,getWord as w,getEnglish as e,getEtymology as t}from'sedra-model';var o,m,d,n,y,u;";
+    const moduleFooter =
+      'export{o as roots,m as lexemes,d as words,n as english,y as etymology,u as ubs};';
+    const umdHeader =
+      "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.getRoots,l=s.getLexemes,w=s.getWords,e=s.getEnglish,t=s.getEtymology,o,m,d,n,y,u;";
+    const umdFooter =
+      "x.roots=o,x.lexemes=m,x.words=d,x.english=n,x.etymology=y,x.ubs=u,Object.defineProperty(x,'__esModule',{value:!0})});";
+    const moduleFile = `${outDir}/sedra.esm.js`;
+    const umdFile = `${outDir}/sedra.js`;
+    return Promise.all([
+      writeDb(moduleFile, `${moduleHeader}${content}${moduleFooter}`),
+      writeDb(umdFile, `${umdHeader}${content}${umdFooter}`)
+    ]);
   })
-);
+  .catch(throwError);
+
+export { readDb, writeDb, convertDb };

@@ -1,23 +1,25 @@
 {
   "name": "sedrajs",
   "version": "1.0.0",
-  "description": "A JavaScript representation of SEDRA 3 database",
+  "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
-  "main݂Min": "build/sedrajs.min.js",
   "module": "build/sedrajs.esm.js",
-  "convert": "build/dist/convert.js",
-  "convertMin": "build/dist/convert.min.js",
+  "convert": "build/convert/convert.js",
+  "convertMin": "build/convert/convert.min.js",
+  "convertMjs": "build/convert/convert.mjs",
   "scripts": {
     "pretest": "rollup -c",
     "test": "mocha --reporter test/istanbul.reporter.js --recursive",
-    "prebuild": "npm test && npm run lint",
-    "build": "npm run bundle && npm run doc",
+    "prebuild": "npm run doc && npm test && npm run lint",
+    "build": "npm run bundle",
+    "postbuild": "npm run postinstall",
     "bundle": "rollup -c --environment BUILD:production",
     "build:dev": "rollup -c --environment BUILD:dev",
     "lint": "eslint src test",
-    "doc": "jsdoc2md -t doc/readme.hbs build/dist/convert.js > README.md",
+    "doc": "jsdoc2md -t doc/readme.hbs src/*.js > README.md",
     "coverage": "cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build",
+    "postinstall": "node build/convert/convert.min.js"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
@@ -27,26 +29,25 @@
       "no-nested-ternary": 0,
       "function-paren-newline": 0,
       "import/extensions": 0,
-      "arrow-parens": 0,
-      "no-bitwise": 0
+      "arrow-parens": 0
     }
   },
-  "files": ["sedra/*.*", "build/dist/*.js"],
+  "files": ["build/convert/*.*js"],
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.6.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peshitta/sedrajs.git"
   },
   "keywords": [
-    "Sedrajs",
+    "Sedra",
     "Sedra.js",
+    "Sedrajs",
     "Peshitta",
     "Peshitto",
     "Pshitta",
     "Pshitto",
-    "Sedra",
     "Aramaic",
     "Syriac",
     "CAL",
@@ -60,18 +61,18 @@
   },
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
-    "rollup": "^0.50.0",
-    "sedra-cal": "^1.0.8",
-    "sedra-model": "^1.0.0"
+    "sedra-model": "^1.0.0",
+    "sedra-parse": "^1.0.0"
   },
   "devDependencies": {
-    "coveralls": "^2.13.3",
+    "coveralls": "^3.0.0",
     "eslint": "^4.8.0",
-    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-config-airbnb-base": "^12.0.2",
     "eslint-plugin-import": "^2.7.0",
     "istanbul": "^0.4.5",
     "jsdoc-to-markdown": "^3.0.0",
-    "mocha": "^4.0.0",
+    "mocha": "^4.0.1",
+    "rollup": "^0.50.0",
     "rollup-plugin-buble": "^0.16.0",
     "rollup-plugin-istanbul": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",

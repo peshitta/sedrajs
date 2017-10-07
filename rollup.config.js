@@ -7,9 +7,8 @@ import pkg from './package.json';
 const isProduction = process.env.BUILD === 'production';
 const isDev = process.env.BUILD === 'dev';
 const banner = isProduction
-  ? '/** @module sedra */\n' +
-    '/**\n' +
-    '* @file A JavaScript representation of SEDRA 3 database\n' +
+  ? '/**\n' +
+    '* @file Scripts to convert SEDRA 3 text database to JavaScript\n' +
     '* @version 1.0.0\n' +
     '* @author Greg Borota\n' +
     '* @copyright (c) 2017 Greg Borota.\n' +
@@ -72,18 +71,17 @@ const banner = isProduction
     '// http://cal1.cn.huc.edu/searching/fullbrowser.html\n'
   : '';
 
-const external = Object.keys(pkg.dependencies).concat(['path', 'fs']);
+const external = Object.keys(pkg.dependencies).concat(['path', 'util', 'fs']);
 const input = 'src/main.js';
 const name = 'sedrajs';
 const format = 'cjs';
 const globals = {
-  'sedra-cal': 'sedraCal',
   'sedra-model': 'sedraModel'
 };
 const sourcemap = !isProduction;
 const plugins = [resolve(), buble()];
 
-// browser-friendly UMD build
+// un-minified cjs build
 const targets = [
   {
     input,
@@ -98,8 +96,27 @@ const targets = [
 ];
 
 if (isProduction) {
-  // browser-friendly minified UMD build
-  plugins.push(uglify());
+  // Mjs ES 6 module
+  targets.push({
+    input,
+    output: [{ file: pkg.convertMjs, format: 'es' }],
+    external,
+    plugins: plugins.slice(0),
+    banner
+  });
+
+  plugins.push(
+    uglify({
+      output: {
+        comments: (node, comment) => {
+          const { value, type } = comment;
+          return type === 'comment2' && /@license/i.test(value);
+        }
+      }
+    })
+  );
+
+  // Minified cjs build
   targets.push({
     input,
     output: [{ file: pkg.convertMin, format }],
