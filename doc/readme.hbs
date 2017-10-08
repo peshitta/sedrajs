@@ -22,7 +22,7 @@ Then run:
 npm install sedrajs --save
 ```
 
-Sedrajs JavaScript database files are not available for distribution, by design.
+Sedrajs JS database files are not available for distribution, by design.
 Only the un-modified Sedra 3 database files and the conversion scripts are
 packaged. You have to run the conversion scripts, by running the command above.
 That will convert Sedra 3 text database and place it in your `node_modules`
