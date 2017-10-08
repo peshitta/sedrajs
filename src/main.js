@@ -98,11 +98,11 @@ const convertDb = Promise.all([
   .then(() => {
     const content = `o=${roots}m=${lexemes}d=${words}n=${english}y=${etymology}u=${ubs}`;
     const moduleHeader =
-      "import{getRoot as r,getLexeme as l,getWord as w,getEnglish as e,getEtymology as t}from'sedra-model';var o,m,d,n,y,u;";
+      "import{makeRoot as r,makeLexeme as l,makeWord as w,makeEnglish as e,makeEtymology as t}from'sedra-model';var o,m,d,n,y,u;";
     const moduleFooter =
       'export{o as roots,m as lexemes,d as words,n as english,y as etymology,u as ubs};';
     const umdHeader =
-      "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.getRoots,l=s.getLexemes,w=s.getWords,e=s.getEnglish,t=s.getEtymology,o,m,d,n,y,u;";
+      "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.makeRoot,l=s.makeLexeme,w=s.makeWord,e=s.makeEnglish,t=s.makeEtymology,o,m,d,n,y,u;";
     const umdFooter =
       "x.roots=o,x.lexemes=m,x.words=d,x.english=n,x.etymology=y,x.ubs=u,Object.defineProperty(x,'__esModule',{value:!0})});";
     const moduleFile = `${outDir}/sedra.esm.js`;

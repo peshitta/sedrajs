@@ -1,6 +1,6 @@
 {
   "name": "sedrajs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
   "module": "build/sedrajs.esm.js",
@@ -43,9 +43,9 @@
     "url": "git+https://github.com/peshitta/sedrajs.git"
   },
   "keywords": [
-    "Sedra",
     "Sedra.js",
     "Sedrajs",
+    "Sedra",
     "Peshitta",
     "Peshitto",
     "Pshitta",
@@ -64,7 +64,7 @@
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
     "fs-extra": "^4.0.2",
-    "sedra-model": "^1.0.0",
+    "sedra-model": "^1.0.2",
     "sedra-parse": "^1.0.0"
   },
   "devDependencies": {
