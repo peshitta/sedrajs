@@ -186,9 +186,33 @@ describe('Etymology', () => {
 
 describe('Sedra', () => {
   it('Parse full DB', done => {
-    convertDb.then(() => done()).catch(error => {
-      throw error;
-    });
+    convertDb
+      .then(() => {
+        const {
+          roots,
+          lexemes,
+          words,
+          english,
+          etymology,
+          ubs
+        } = require('../build/sedra.js');
+        test.strictEqual(roots.length, 2051, 'roots');
+        test.strictEqual(roots[1].root, '))r', 'first root');
+        test.strictEqual(lexemes.length, 3560, 'lexemes');
+        test.strictEqual(lexemes[3559].lexeme, 'rxq', 'last lexeme');
+        test.strictEqual(words.length, 31080, 'words');
+        test.strictEqual(words[31079].vocalised, "we)sayb'ar", 'last word');
+        test.strictEqual(english.length, 6353, 'english');
+        test.strictEqual(english[35].word, 'Augustus', '35 english');
+        test.strictEqual(etymology.length, 175, 'etymology');
+        test.strictEqual(etymology[174].word, 'talaria', 'last etymology');
+        test.ok(ubs, 'ubs');
+        test.strictEqual(ubs[52][1][1][0], 10762, 'first ubs word id');
+        done();
+      })
+      .catch(error => {
+        throw error;
+      });
   });
 });
 
