@@ -9,7 +9,7 @@ cache:
     - "node_modules"
 env:
   global:
-    - BUILD_TIMEOUT=10000
+    - BUILD_TIMEOUT=20000
 install: npm install
 script: npm run build
 after_success: npm run coverage

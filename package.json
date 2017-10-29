@@ -1,6 +1,6 @@
 {
   "name": "sedrajs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
   "module": "build/sedrajs.esm.js",
@@ -9,7 +9,7 @@
   "convertMjs": "build/convert/convert.mjs",
   "scripts": {
     "pretest": "rollup -c",
-    "test": "mocha --reporter test/istanbul.reporter.js --recursive",
+    "test": "mocha --reporter test/istanbul.reporter.js --recursive --timeout 15000",
     "prebuild": "npm run doc && npm test && npm run lint",
     "build": "npm run bundle",
     "bundle": "rollup -c --environment BUILD:production",
@@ -65,7 +65,7 @@
   "dependencies": {
     "fs-extra": "^4.0.2",
     "sedra-model": "^1.0.3",
-    "sedra-parse": "^1.0.3"
+    "sedra-parse": "^1.0.4"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
