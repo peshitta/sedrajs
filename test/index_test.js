@@ -222,6 +222,11 @@ describe('readDb', () => {
       done();
     });
   });
+  it('Throws on directory', done => {
+    readDb('', null).catch(() => {
+      done();
+    });
+  });
 });
 
 describe('writeDb', () => {
