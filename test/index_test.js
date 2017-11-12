@@ -195,7 +195,7 @@ describe('Sedra', () => {
           english,
           etymology,
           ubs
-        } = require('../build/sedra.js');
+        } = require('../build/sedrajs.js');
         test.strictEqual(roots.length, 2051, 'roots');
         test.strictEqual(roots[1].root, '))r', 'first root');
         test.strictEqual(lexemes.length, 3560, 'lexemes');

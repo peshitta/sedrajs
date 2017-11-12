@@ -9,7 +9,7 @@ const isDev = process.env.BUILD === 'dev';
 const banner = isProduction
   ? '/**\n' +
     '* @file Scripts to convert SEDRA 3 text database to JavaScript\n' +
-    '* @version 1.0.5\n' +
+    '* @version 1.0.6\n' +
     '* @author Greg Borota\n' +
     '* @copyright (c) 2017 Greg Borota.\n' +
     '*\n' +
@@ -71,7 +71,7 @@ const banner = isProduction
     '// http://cal1.cn.huc.edu/searching/fullbrowser.html\n'
   : '';
 
-const external = Object.keys(pkg.dependencies).concat(['path']);
+const external = Object.keys(pkg.dependencies).concat(['path', 'fs']);
 const input = 'src/main.js';
 const name = 'sedrajs';
 const format = 'cjs';

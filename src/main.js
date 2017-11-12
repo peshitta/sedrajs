@@ -1,6 +1,6 @@
 /** @module convert */
 import { join } from 'path';
-import { realpath, readFile, writeFile } from 'fs-extra';
+import { realpath, readFile, writeFile } from 'fs';
 import {
   getRoots,
   getLexemes,
@@ -9,6 +9,39 @@ import {
   getEtymology,
   getUbs
 } from 'sedra-parse';
+
+const realpathAsync = path =>
+  new Promise((resolve, reject) => {
+    realpath(path, 'utf8', (err, resolvedPath) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(resolvedPath);
+      }
+    });
+  });
+
+const readFileAsync = path =>
+  new Promise((resolve, reject) => {
+    readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+
+const writeFileAsync = (file, data) =>
+  new Promise((resolve, reject) => {
+    writeFile(file, data, 'utf8', err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
 
 const outDir = `${__dirname}/../`;
 const throwError = error => {
@@ -30,9 +63,9 @@ const throwError = error => {
  * @returns { Promise.<string> } Converted content promise
  */
 const readDb = (db, converter) =>
-  realpath(join(__dirname, '../../sedra', db))
+  realpathAsync(join(__dirname, '../../sedra', db))
     .then(file =>
-      readFile(file, 'utf8')
+      readFileAsync(file, 'utf8')
         .then(content => converter(content))
         .catch(throwError)
     )
@@ -46,9 +79,9 @@ const readDb = (db, converter) =>
  * @returns { Promise } File write promise
  */
 const writeDb = (filePath, content) =>
-  writeFile(filePath, content, 'utf8')
+  writeFileAsync(filePath, content, 'utf8')
     .then(() => {
-      realpath(filePath)
+      realpathAsync(filePath)
         .then(file => {
           global.console.log(`Saved '${file}'`);
         })
@@ -105,8 +138,8 @@ const convertDb = Promise.all([
       "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.makeRoot,l=s.makeLexeme,w=s.makeWord,e=s.makeEnglish,t=s.makeEtymology,o,m,d,n,y,u;";
     const umdFooter =
       "x.roots=o,x.lexemes=m,x.words=d,x.english=n,x.etymology=y,x.ubs=u,Object.defineProperty(x,'__esModule',{value:!0})});";
-    const moduleFile = `${outDir}/sedra.esm.js`;
-    const umdFile = `${outDir}/sedra.js`;
+    const moduleFile = `${outDir}/sedrajs.esm.js`;
+    const umdFile = `${outDir}/sedrajs.js`;
     return Promise.all([
       writeDb(moduleFile, `${moduleHeader}${content}${moduleFooter}`),
       writeDb(umdFile, `${umdHeader}${content}${umdFooter}`)

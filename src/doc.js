@@ -1,6 +1,6 @@
 /** @module sedrajs */
 
-// This stub file is used only by `jsdoc2md` to document Sedra.js database
+// This stub file is used only by `jsdoc2md` to document `sedrajs` database
 
 /**
  * Array of Root objects created from Sedra 3 root records
