@@ -1,6 +1,6 @@
 /** @module convert */
 import { join } from 'path';
-import { realpath, readFile, writeFile } from 'fs';
+import { realpath, mkdir, readFile, writeFile } from 'fs';
 import {
   getRoots,
   getLexemes,
@@ -17,6 +17,17 @@ const realpathAsync = path =>
         reject(err);
       } else {
         resolve(resolvedPath);
+      }
+    });
+  });
+
+const mkdirAsync = path =>
+  new Promise((resolve, reject) => {
+    mkdir(path, err => {
+      if (err && err.code !== 'EEXIST') {
+        reject(err);
+      } else {
+        resolve();
       }
     });
   });
@@ -44,6 +55,7 @@ const writeFileAsync = (file, data) =>
   });
 
 const outDir = `${__dirname}/../`;
+const outSedraDir = `${outDir}sedra/`;
 const throwError = error => {
   throw error;
 };
@@ -55,6 +67,7 @@ const throwError = error => {
  * @param { string } content Sedra db text file content
  * @returns { string } Converted content
  */
+
 /**
  * Read Sedra db file asynchronously and returns converted content promise
  * @static
@@ -65,7 +78,7 @@ const throwError = error => {
 const readDb = (db, converter) =>
   realpathAsync(join(__dirname, '../../sedra', db))
     .then(file =>
-      readFileAsync(file, 'utf8')
+      readFileAsync(file)
         .then(content => converter(content))
         .catch(throwError)
     )
@@ -79,7 +92,7 @@ const readDb = (db, converter) =>
  * @returns { Promise } File write promise
  */
 const writeDb = (filePath, content) =>
-  writeFileAsync(filePath, content, 'utf8')
+  writeFileAsync(filePath, content)
     .then(() => {
       realpathAsync(filePath)
         .then(file => {
@@ -126,25 +139,84 @@ const convertDb = Promise.all([
   wordPromise,
   englishPromise,
   etymologyPromise,
-  ubsPromise
+  ubsPromise,
+  mkdirAsync(outSedraDir)
 ])
   .then(() => {
-    const content = `o=${roots}m=${lexemes}d=${words}n=${english}y=${etymology}u=${ubs}`;
-    const moduleHeader =
-      "import{makeRoot as r,makeLexeme as l,makeWord as w,makeEnglish as e,makeEtymology as t}from'sedra-model';var o,m,d,n,y,u;";
-    const moduleFooter =
-      'export{o as roots,m as lexemes,d as words,n as english,y as etymology,u as ubs};';
+    const rootContent = `o=${roots}`;
+    const lexemeContent = `m=${lexemes}`;
+    const wordContent = `d=${words}`;
+    const englishContent = `n=${english}`;
+    const etymologyContent = `y=${etymology}`;
+    const ubsContent = `u=${ubs}`;
+    const content = `${rootContent}${lexemeContent}${wordContent}${englishContent}${etymologyContent}${ubsContent}`;
+
+    const rootImport = 'makeRoot as r';
+    const lexemeImport = 'makeLexeme as l';
+    const wordImport = 'makeWord as w';
+    const englishImport = 'makeEnglish as e';
+    const etymologyImport = 'makeEtymology as t';
+    const importText = 'import{';
+    const fromText = "}from'sedra-model'";
+    const o = 'o';
+    const m = 'm';
+    const d = 'd';
+    const n = 'n';
+    const y = 'y';
+    const u = 'u';
+    const rootExport = `${o} as roots`;
+    const lexemeExport = `${m} as lexemes`;
+    const wordExport = `${d} as words`;
+    const englishExport = `${n} as english`;
+    const etymologyExport = `${y} as etymology`;
+    const ubsExport = `${u} as ubs`;
+    const exportText = 'export{';
+
+    const rootHeader = `${importText}${rootImport}${fromText};var `;
+    const lexemeHeader = `${importText}${lexemeImport}${fromText};var `;
+    const wordHeader = `${importText}${wordImport}${fromText};var `;
+    const englishHeader = `${importText}${englishImport}${fromText};var `;
+    const etymologyHeader = `${importText}${etymologyImport}${fromText};var `;
+    const ubsHeader = 'var ';
+    const moduleHeader = `${importText}${rootImport},${lexemeImport},${wordImport},${englishImport},${etymologyImport}${fromText};var ${o},${m},${d},${n},${y},${u};`;
+
+    const rootFooter = `${exportText}${rootExport}};`;
+    const lexemeFooter = `${exportText}${lexemeExport}};`;
+    const wordFooter = `${exportText}${wordExport}};`;
+    const englishFooter = `${exportText}${englishExport}};`;
+    const etymologyFooter = `${exportText}${etymologyExport}};`;
+    const ubsFooter = `${exportText}${ubsExport}};`;
+    const moduleFooter = `${exportText}${rootExport},${lexemeExport},${wordExport},${englishExport},${etymologyExport},${ubsExport}};`;
     const umdHeader =
       "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.makeRoot,l=s.makeLexeme,w=s.makeWord,e=s.makeEnglish,t=s.makeEtymology,o,m,d,n,y,u;";
     const umdFooter =
       "x.roots=o,x.lexemes=m,x.words=d,x.english=n,x.etymology=y,x.ubs=u,Object.defineProperty(x,'__esModule',{value:!0})});";
-    const moduleFile = `${outDir}/sedrajs.esm.js`;
-    const umdFile = `${outDir}/sedrajs.js`;
+
+    const rootFile = `${outSedraDir}roots.js`;
+    const lexemeFile = `${outSedraDir}lexemes.js`;
+    const wordFile = `${outSedraDir}words.js`;
+    const englishFile = `${outSedraDir}english.js`;
+    const etymologyFile = `${outSedraDir}etymology.js`;
+    const ubsFile = `${outSedraDir}ubs.js`;
+
+    const moduleFile = `${outDir}sedrajs.esm.js`;
+    const umdFile = `${outDir}sedrajs.js`;
+
     return Promise.all([
+      writeDb(rootFile, `${rootHeader}${rootContent}${rootFooter}`),
+      writeDb(lexemeFile, `${lexemeHeader}${lexemeContent}${lexemeFooter}`),
+      writeDb(wordFile, `${wordHeader}${wordContent}${wordFooter}`),
+      writeDb(englishFile, `${englishHeader}${englishContent}${englishFooter}`),
+      writeDb(
+        etymologyFile,
+        `${etymologyHeader}${etymologyContent}${etymologyFooter}`
+      ),
+      writeDb(ubsFile, `${ubsHeader}${ubsContent}${ubsFooter}`),
+
       writeDb(moduleFile, `${moduleHeader}${content}${moduleFooter}`),
       writeDb(umdFile, `${umdHeader}${content}${umdFooter}`)
     ]);
   })
   .catch(throwError);
 
-export { readDb, writeDb, convertDb };
+export { readDb, writeDb, convertDb, mkdirAsync as mkDir };

@@ -1,5 +1,10 @@
 const test = require('assert');
-const { readDb, writeDb, convertDb } = require('../build/convert/convert.js');
+const {
+  readDb,
+  writeDb,
+  convertDb,
+  mkDir
+} = require('../build/convert/convert.js');
 
 describe('Root', () => {
   it('Db has no id holes', done => {
@@ -232,6 +237,14 @@ describe('readDb', () => {
 describe('writeDb', () => {
   it('Throws on invalid file name', done => {
     writeDb('Inv/al\\id:Name!<>"', null).catch(() => {
+      done();
+    });
+  });
+});
+
+describe('mkDir', () => {
+  it('Throws on invalid mkDir dir name', done => {
+    mkDir('Inv/al\\id:Name!<>"', null).catch(() => {
       done();
     });
   });

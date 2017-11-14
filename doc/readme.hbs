@@ -5,8 +5,8 @@
 [![Build Status](https://travis-ci.org/peshitta/sedrajs.svg?branch=master)](https://travis-ci.org/peshitta/sedrajs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/peshitta/sedrajs/blob/master/LICENSE)
 [![Dependency Status](https://david-dm.org/peshitta/sedrajs.svg)](https://david-dm.org/peshitta/sedrajs)
-[![devDependencies Status](https://david-dm.org/peshitta/sedrajs/dev-status.svg)](https://david-dm.org/peshitta/sedrajs?type=dev)
 [![Coverage Status](https://coveralls.io/repos/github/peshitta/sedrajs/badge.svg?branch=master)](https://coveralls.io/github/peshitta/sedrajs?branch=master)
+[![Gitter](https://badges.gitter.im/peshitta/peshitta.svg "Join the chat at https://gitter.im/peshitta/Lobby")](https://gitter.im/peshitta/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Sedrajs project uses [Node.js](https://nodejs.org/) scripts to convert
 [Sedra 3](https://sedra.bethmardutho.org/about/resources) text file database
@@ -31,6 +31,8 @@ folder as:
 `rollup` or `webpack`.
 * `sedra.js` - A general UMD bundle, suitable for use in any environment
 (Web browser, Node.js, etc.)
+* `sedra` folder - `roots.js`, `lexemes.js`, `words.js`, `english.js`
+`etymology.js` and `ubs.js` separated ES6 modules.
 
 The conversion scripts are stored in `build/convert` directory as:
 * `convert.js` - Un-minified cjs node script.
@@ -81,7 +83,11 @@ You are welcomed to improve this implementation or provide feedback. Please
 feel free to [Fork](https://help.github.com/articles/fork-a-repo/), create a
 [Pull Request](https://help.github.com/articles/about-pull-requests/) or
 submit [Issues](https://github.com/peshitta/sedrajs/issues).
-Thank you!
+
+To read quick updates about Peshitta app or post questions or feedback, follow
+[@peshittap](https://www.twitter.com/peshittap)
+at [![@peshittap](http://i.imgur.com/wWzX9uB.png "@peshittap")](https://www.twitter.com/peshittap)or
+[![Gitter](https://badges.gitter.im/peshitta/peshitta.svg "Join the chat at https://gitter.im/peshitta/Lobby")](https://gitter.im/peshitta/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Development
 

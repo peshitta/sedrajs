@@ -63,8 +63,8 @@
   },
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
-    "sedra-model": "^1.0.3",
-    "sedra-parse": "^1.0.4"
+    "sedra-model": "^1.0.4",
+    "sedra-parse": "^1.0.5"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
