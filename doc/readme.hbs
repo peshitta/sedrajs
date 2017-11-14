@@ -27,9 +27,9 @@ Only the un-modified Sedra 3 database files and the conversion scripts are
 packaged. You have to run the conversion scripts, by running the command above.
 That will convert Sedra 3 text database and place it in your `node_modules`
 folder as:
-* `sedra.esm.js` - An ES6 module, suitable for use with module bundlers like
+* `sedrajs.esm.js` - An ES6 module, suitable for use with module bundlers like
 `rollup` or `webpack`.
-* `sedra.js` - A general UMD bundle, suitable for use in any environment
+* `sedrajs.js` - A general UMD bundle, suitable for use in any environment
 (Web browser, Node.js, etc.)
 * `sedra` folder - `roots.js`, `lexemes.js`, `words.js`, `english.js`
 `etymology.js` and `ubs.js` separated ES6 modules.
