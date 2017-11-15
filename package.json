@@ -1,6 +1,6 @@
 {
   "name": "sedrajs",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
   "module": "build/sedrajs.esm.js",
