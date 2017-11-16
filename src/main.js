@@ -172,20 +172,14 @@ const convertDb = Promise.all([
     const ubsExport = `${u} as ubs`;
     const exportText = 'export{';
 
-    const rootHeader = `${importText}${rootImport}${fromText};var `;
-    const lexemeHeader = `${importText}${lexemeImport}${fromText};var `;
-    const wordHeader = `${importText}${wordImport}${fromText};var `;
-    const englishHeader = `${importText}${englishImport}${fromText};var `;
-    const etymologyHeader = `${importText}${etymologyImport}${fromText};var `;
-    const ubsHeader = 'var ';
+    const rootHeader = `${importText}${rootImport}${fromText};export default `;
+    const lexemeHeader = `${importText}${lexemeImport}${fromText};export default `;
+    const wordHeader = `${importText}${wordImport}${fromText};export default `;
+    const englishHeader = `${importText}${englishImport}${fromText};export default `;
+    const etymologyHeader = `${importText}${etymologyImport}${fromText};export default `;
+    const ubsHeader = 'export default ';
     const moduleHeader = `${importText}${rootImport},${lexemeImport},${wordImport},${englishImport},${etymologyImport}${fromText};var ${o},${m},${d},${n},${y},${u};`;
 
-    const rootFooter = `${exportText}${rootExport}};`;
-    const lexemeFooter = `${exportText}${lexemeExport}};`;
-    const wordFooter = `${exportText}${wordExport}};`;
-    const englishFooter = `${exportText}${englishExport}};`;
-    const etymologyFooter = `${exportText}${etymologyExport}};`;
-    const ubsFooter = `${exportText}${ubsExport}};`;
     const moduleFooter = `${exportText}${rootExport},${lexemeExport},${wordExport},${englishExport},${etymologyExport},${ubsExport}};`;
     const umdHeader =
       "!function(g,f){'object'==typeof exports&&'undefined'!=typeof module?f(exports,require('sedra-model')):'function'==typeof define&&define.amd?define(['exports','sedra-model'],f):f(g.sedrajs={},g.sedraModel)}(this,function(x,s){'use strict';var r=s.makeRoot,l=s.makeLexeme,w=s.makeWord,e=s.makeEnglish,t=s.makeEtymology,o,m,d,n,y,u;";
@@ -203,15 +197,15 @@ const convertDb = Promise.all([
     const umdFile = `${outDir}sedrajs.js`;
 
     return Promise.all([
-      writeDb(rootFile, `${rootHeader}${rootContent}${rootFooter}`),
-      writeDb(lexemeFile, `${lexemeHeader}${lexemeContent}${lexemeFooter}`),
-      writeDb(wordFile, `${wordHeader}${wordContent}${wordFooter}`),
-      writeDb(englishFile, `${englishHeader}${englishContent}${englishFooter}`),
+      writeDb(rootFile, `${rootHeader}${roots}`),
+      writeDb(lexemeFile, `${lexemeHeader}${lexemes}`),
+      writeDb(wordFile, `${wordHeader}${words}`),
+      writeDb(englishFile, `${englishHeader}${english}`),
       writeDb(
         etymologyFile,
-        `${etymologyHeader}${etymologyContent}${etymologyFooter}`
+        `${etymologyHeader}${etymology}`
       ),
-      writeDb(ubsFile, `${ubsHeader}${ubsContent}${ubsFooter}`),
+      writeDb(ubsFile, `${ubsHeader}${ubs}`),
 
       writeDb(moduleFile, `${moduleHeader}${content}${moduleFooter}`),
       writeDb(umdFile, `${umdHeader}${content}${umdFooter}`)
