@@ -1,6 +1,6 @@
 {
   "name": "sedrajs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
   "module": "build/sedrajs.esm.js",
@@ -63,7 +63,7 @@
   },
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
-    "sedra-model": "^1.0.4",
+    "sedra-model": "^1.0.5",
     "sedra-parse": "^1.0.5"
   },
   "devDependencies": {
