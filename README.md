@@ -40,7 +40,7 @@ The conversion scripts are stored in `build/convert` directory as:
 * `convert.mjs` - ES6 mjs node script - can be run with Node.js 8 and higher
 
 The conversion script package could also be downloaded directly from:
-[https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.9.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.0.9.tgz)
+[https://registry.npmjs.org/sedrajs/-/sedrajs-1.1.0.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.1.0.tgz)
 
 ## More information
 
