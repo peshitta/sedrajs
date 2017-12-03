@@ -9,7 +9,7 @@ const isDev = process.env.BUILD === 'dev';
 const banner = isProduction
   ? '/**\n' +
     '* @file Scripts to convert SEDRA 3 text database to JavaScript\n' +
-    '* @version 1.1.0\n' +
+    '* @version 1.1.1\n' +
     '* @author Greg Borota\n' +
     '* @copyright (c) 2017 Greg Borota.\n' +
     '*\n' +
