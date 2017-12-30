@@ -9,7 +9,7 @@ const isDev = process.env.BUILD === 'dev';
 const banner = isProduction
   ? '/**\n' +
     '* @file Scripts to convert SEDRA 3 text database to JavaScript\n' +
-    '* @version 1.2.1\n' +
+    '* @version 1.2.2\n' +
     '* @author Greg Borota\n' +
     '* @copyright (c) 2017 Greg Borota.\n' +
     '*\n' +
@@ -85,10 +85,9 @@ const plugins = [resolve(), buble()];
 const targets = [
   {
     input,
-    output: [{ file: pkg.convert, format, name, globals, sourcemap }],
+    output: [{ file: pkg.convert, format, name, globals, banner, sourcemap }],
     external,
-    plugins: plugins.slice(0),
-    banner
+    plugins: plugins.slice(0)
   }
 ];
 
@@ -96,10 +95,9 @@ if (isProduction) {
   // Mjs ES 6 module
   targets.push({
     input,
-    output: [{ file: pkg.convertMjs, format: 'es' }],
+    output: [{ file: pkg.convertMjs, format: 'es', banner }],
     external,
-    plugins: plugins.slice(0),
-    banner
+    plugins: plugins.slice(0)
   });
 
   plugins.push(
@@ -116,10 +114,9 @@ if (isProduction) {
   // Minified cjs build
   targets.push({
     input,
-    output: [{ file: pkg.convertMin, format, name, globals }],
+    output: [{ file: pkg.convertMin, format, name, globals, banner }],
     external,
-    plugins,
-    banner
+    plugins
   });
 } else if (!isDev) {
   targets[0].plugins.push(

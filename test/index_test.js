@@ -2,8 +2,8 @@ const test = require('assert');
 const {
   readDb,
   writeDb,
-  convertDb,
-  mkDir
+  mkDir,
+  convertDb
 } = require('../build/convert/convert.js');
 
 describe('Root', () => {
@@ -189,38 +189,6 @@ describe('Etymology', () => {
   });
 });
 
-describe('Sedra', () => {
-  it('Parse full DB', done => {
-    convertDb
-      .then(() => {
-        const {
-          roots,
-          lexemes,
-          words,
-          english,
-          etymology,
-          ubs
-        } = require('../build/sedrajs.js');
-        test.strictEqual(roots.length, 2051, 'roots');
-        test.strictEqual(roots[1].root, '))r', 'first root');
-        test.strictEqual(lexemes.length, 3560, 'lexemes');
-        test.strictEqual(lexemes[3559].lexeme, 'rxq', 'last lexeme');
-        test.strictEqual(words.length, 31080, 'words');
-        test.strictEqual(words[31079].vocalised, "we)sayb'ar", 'last word');
-        test.strictEqual(english.length, 6353, 'english');
-        test.strictEqual(english[35].word, 'Augustus', '35 english');
-        test.strictEqual(etymology.length, 175, 'etymology');
-        test.strictEqual(etymology[174].word, 'talaria', 'last etymology');
-        test.ok(ubs, 'ubs');
-        test.strictEqual(ubs[52][1][1][0], 10762, 'first ubs word id');
-        done();
-      })
-      .catch(error => {
-        throw error;
-      });
-  });
-});
-
 describe('readDb', () => {
   it('Throws on non-existent file', done => {
     readDb('Non-Existent$<!', null).catch(() => {
@@ -247,5 +215,37 @@ describe('mkDir', () => {
     mkDir('Inv/al\\id:Name!<>"', null).catch(() => {
       done();
     });
+  });
+});
+
+describe('Sedra', () => {
+  it('Parse full DB', done => {
+    convertDb()
+      .then(() => {
+        const {
+          roots,
+          lexemes,
+          english,
+          etymology,
+          words,
+          ubs
+        } = require('../build/sedrajs.js');
+        test.strictEqual(roots.length, 2051, 'roots');
+        test.strictEqual(roots[1].root, '))r', 'first root');
+        test.strictEqual(lexemes.length, 3560, 'lexemes');
+        test.strictEqual(lexemes[3559].lexeme, 'rxq', 'last lexeme');
+        test.strictEqual(words.length, 31080, 'words');
+        test.strictEqual(words[31079].vocalised, "we)sayb'ar", 'last word');
+        test.strictEqual(english.length, 6353, 'english');
+        test.strictEqual(english[35].word, 'Augustus', '35 english');
+        test.strictEqual(etymology.length, 175, 'etymology');
+        test.strictEqual(etymology[174].word, 'talaria', 'last etymology');
+        test.ok(ubs, 'ubs');
+        test.strictEqual(ubs[52][1][1][0], 10762, 'first ubs word id');
+        done();
+      })
+      .catch(error => {
+        throw error;
+      });
   });
 });

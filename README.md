@@ -40,7 +40,7 @@ The conversion scripts are stored in `build/convert` directory as:
 * `convert.mjs` - ES6 mjs node script - can be run with Node.js 8 and higher
 
 The conversion script package could also be downloaded directly from:
-[https://registry.npmjs.org/sedrajs/-/sedrajs-1.2.1.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.2.1.tgz)
+[https://registry.npmjs.org/sedrajs/-/sedrajs-1.2.2.tgz](https://registry.npmjs.org/sedrajs/-/sedrajs-1.2.2.tgz)
 
 ## More information
 
@@ -155,9 +155,9 @@ leaves, referencing the actual content for each book.
 
 * [convert](#module_convert)
     * [.convertDb](#module_convert.convertDb) ⇒ <code>Promise</code>
-    * [.readDb(db, converter)](#module_convert.readDb) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.readDb(db, converter)](#module_convert.readDb) ⇒ <code>Promise.&lt;(string\|object)&gt;</code>
     * [.writeDb(filePath, content)](#module_convert.writeDb) ⇒ <code>Promise</code>
-    * [.converter](#module_convert.converter) ⇒ <code>string</code>
+    * [.converter](#module_convert.converter) ⇒ <code>string</code> \| <code>object</code>
 
 <a name="module_convert.convertDb"></a>
 
@@ -168,11 +168,11 @@ Read all of Sedra 3 text database and convert it to JavaScript
 **Returns**: <code>Promise</code> - Promise for JavaScript database  
 <a name="module_convert.readDb"></a>
 
-### convert.readDb(db, converter) ⇒ <code>Promise.&lt;string&gt;</code>
+### convert.readDb(db, converter) ⇒ <code>Promise.&lt;(string\|object)&gt;</code>
 Read Sedra db file asynchronously and returns converted content promise
 
 **Kind**: static method of [<code>convert</code>](#module_convert)  
-**Returns**: <code>Promise.&lt;string&gt;</code> - Converted content promise  
+**Returns**: <code>Promise.&lt;(string\|object)&gt;</code> - Converted content promise  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -194,11 +194,11 @@ Write content asynchronously and return promise
 
 <a name="module_convert.converter"></a>
 
-### convert.converter ⇒ <code>string</code>
+### convert.converter ⇒ <code>string</code> \| <code>object</code>
 Sedra db content converter: callback to transform content read from disk.
 
 **Kind**: static typedef of [<code>convert</code>](#module_convert)  
-**Returns**: <code>string</code> - Converted content  
+**Returns**: <code>string</code> \| <code>object</code> - Converted content  
 
 | Param | Type | Description |
 | --- | --- | --- |
