@@ -1,6 +1,6 @@
 {
   "name": "sedrajs",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Scripts to convert SEDRA 3 text database to JavaScript",
   "main": "build/sedrajs.js",
   "module": "build/sedrajs.esm.js",
@@ -9,8 +9,7 @@
   "convertMjs": "build/convert/convert.mjs",
   "scripts": {
     "pretest": "rollup -c",
-    "test":
-      "mocha --reporter test/istanbul.reporter.js --recursive --timeout 15000",
+    "test": "mocha --reporter test/istanbul.reporter.js --recursive --timeout 15000",
     "prebuild": "npm run doc && npm test && npm run lint",
     "build": "npm run bundle",
     "bundle": "rollup -c --environment BUILD:production",
@@ -19,8 +18,7 @@
     "doc": "jsdoc2md -t doc/readme.hbs src/*.js > README.md",
     "coverage": "cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "prepare": "npm run build",
-    "postinstall":
-      "node -e \"require('./build/convert/convert.min.js').convertDb()\""
+    "postinstall": "node -e \"require('./build/convert/convert.min.js').convertDb()\""
   },
   "eslintConfig": {
     "extends": "airbnb-base",
@@ -33,7 +31,10 @@
       "arrow-parens": 0
     }
   },
-  "files": ["sedra", "build/convert/*.*js"],
+  "files": [
+    "sedra",
+    "build/convert/*.*js"
+  ],
   "engines": {
     "node": ">=6.0.0"
   },
@@ -63,7 +64,7 @@
   "homepage": "https://github.com/peshitta/sedrajs#readme",
   "dependencies": {
     "sedra-model": "^1.2.0",
-    "sedra-parse": "^1.1.4"
+    "sedra-parse": "^1.1.6"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
