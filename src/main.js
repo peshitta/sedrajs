@@ -109,29 +109,29 @@ const writeDb = (filePath, content) =>
  * @returns { Promise } Promise for JavaScript database
  */
 const convertDb = () => {
-  let roots = null;
-  let lexemes = null;
-  let words = null;
-  let english = null;
-  let etymology = null;
-  let ubs = null;
+  let rootJs = null;
+  let lexemeJs = null;
+  let wordJs = null;
+  let englishJs = null;
+  let etymologyJs = null;
+  let ubsJs = null;
   const rootPromise = readDb('ROOTS.TXT', getRoots).then(js => {
-    roots = js;
+    rootJs = js;
   });
   const lexemePromise = readDb('LEXEMES.TXT', getLexemes).then(js => {
-    lexemes = js;
+    lexemeJs = js;
   });
   const wordPromise = readDb('WORDS.TXT', getWords).then(js => {
-    words = js;
+    wordJs = js;
   });
   const englishPromise = readDb('ENGLISH.TXT', getEnglish).then(js => {
-    english = js;
+    englishJs = js;
   });
   const etymologyPromise = readDb('ETIMOLGY.TXT', getEtymology).then(js => {
-    etymology = js;
+    etymologyJs = js;
   });
   const ubsPromise = readDb('BFBS.TXT', getUbs).then(js => {
-    ubs = js;
+    ubsJs = js;
   });
 
   return Promise.all([
@@ -144,12 +144,12 @@ const convertDb = () => {
     mkdirAsync(outSedraDir)
   ])
     .then(() => {
-      const rootContent = `o=${roots}`;
-      const lexemeContent = `m=${lexemes}`;
-      const wordContent = `d=${words.words}`;
-      const englishContent = `n=${english}`;
-      const etymologyContent = `y=${etymology}`;
-      const ubsContent = `u=${ubs.ubs}`;
+      const rootContent = `o=${rootJs}`;
+      const lexemeContent = `m=${lexemeJs}`;
+      const wordContent = `d=${wordJs.words}`;
+      const englishContent = `n=${englishJs.english}`;
+      const etymologyContent = `y=${etymologyJs.etymology}`;
+      const ubsContent = `u=${ubsJs.ubs}`;
       const content = `${rootContent}${lexemeContent}${wordContent}${englishContent}${etymologyContent}${ubsContent}`;
 
       const rootImport = 'makeRoot as r';
@@ -195,21 +195,25 @@ const convertDb = () => {
       const ubsFile = `${outSedraDir}ubs.js`;
       const noWFile = `${outSedraDir}noW.js`;
       const noYFile = `${outSedraDir}noY.js`;
+      const englishLidFile = `${outSedraDir}englishLid.js`;
+      const etymologyLidFile = `${outSedraDir}etymologyLid.js`;
       const referenceFile = `${outSedraDir}ubsReference.js`;
 
       const moduleFile = `${outDir}sedrajs.esm.js`;
       const umdFile = `${outDir}sedrajs.js`;
 
       return Promise.all([
-        writeDb(rootFile, `${rootHeader}${roots}`),
-        writeDb(lexemeFile, `${lexemeHeader}${lexemes}`),
-        writeDb(wordFile, `${wordHeader}${words.words}`),
-        writeDb(englishFile, `${englishHeader}${english}`),
-        writeDb(etymologyFile, `${etymologyHeader}${etymology}`),
-        writeDb(ubsFile, `${defaultExport}${ubs.ubs}`),
-        writeDb(noWFile, `${defaultExport}${words.noW}`),
-        writeDb(noYFile, `${defaultExport}${words.noY}`),
-        writeDb(referenceFile, `${defaultExport}${ubs.reference}`),
+        writeDb(rootFile, `${rootHeader}${rootJs}`),
+        writeDb(lexemeFile, `${lexemeHeader}${lexemeJs}`),
+        writeDb(wordFile, `${wordHeader}${wordJs.words}`),
+        writeDb(englishFile, `${englishHeader}${englishJs.english}`),
+        writeDb(etymologyFile, `${etymologyHeader}${etymologyJs.etymology}`),
+        writeDb(ubsFile, `${defaultExport}${ubsJs.ubs}`),
+        writeDb(noWFile, `${defaultExport}${wordJs.noW}`),
+        writeDb(noYFile, `${defaultExport}${wordJs.noY}`),
+        writeDb(englishLidFile, `${defaultExport}${englishJs.lids}`),
+        writeDb(etymologyLidFile, `${defaultExport}${etymologyJs.lids}`),
+        writeDb(referenceFile, `${defaultExport}${ubsJs.reference}`),
 
         writeDb(moduleFile, `${moduleHeader}${content}${moduleFooter}`),
         writeDb(umdFile, `${umdHeader}${content}${umdFooter}`)
